@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -215,4 +216,42 @@ class AdjacencyListGraph<T> implements Graph<T> {
         return subgraph;
     }
 
+}
+
+public class main {
+    public static void main(String[] args) {
+        // Crear un grafo dirigido
+        Graph<String> graph = new AdjacencyListGraph<>();
+
+        // Agregar vértices al grafo
+        graph.add("A");
+        graph.add("B");
+        graph.add("C");
+        graph.add("D");
+        graph.add("E");
+
+        // Conectar vértices en el grafo
+        graph.connect("A", "B");
+        graph.connect("B", "C");
+        graph.connect("C", "D");
+        graph.connect("D", "E");
+        graph.connect("E", "A");
+
+        // Obtener todos los vértices del grafo
+        List<String> allVertices = graph.getAllVertices();
+        System.out.println("Todos los vértices: " + allVertices);
+
+        System.out.println("----------------------------------------------------------------");
+
+
+        // Crear un subgrafo a partir de un conjunto de vértices
+        List<String> subgraphVertices = Arrays.asList("A", "B", "C");
+        Graph<String> subgraph = graph.subgraph(subgraphVertices);
+        System.out.println("Subgrafo: " + subgraph);
+
+        // Eliminar un vértice y sus conexiones del grafo
+        boolean removed = graph.remove("D");
+        System.out.println("Vértice eliminado: " + removed);
+        System.out.println("Grafo después de eliminar el vértice: " + graph);
+    }
 }

@@ -21,12 +21,12 @@ interface Graph<T> {
 class AdjacencyListGraph<T> implements Graph<T> {
     private Map<T, List<T>> adjacencyMap;
 
-    //METODO CONSTRUCTOR
+    //Metodo Constructor
     public AdjacencyListGraph() {
         adjacencyMap = new HashMap<>();
     }
 
-    //METODO ADD
+    //Metodo add
     public boolean add(T vertex) {
         //Verificamos si el vertice que queremos agregar ya pertenece al HashMap.
         if (!contains(vertex)) {
@@ -36,11 +36,11 @@ class AdjacencyListGraph<T> implements Graph<T> {
             return true;
         }
         //Si pertenece se retorna false.
-        System.out.println("No se ha podido agregar el vertice "+vertex+" .");
+        System.out.println("El vertice "+vertex+", ya pertenece al conjunto de vertices del grafo.");
         return false;
     }
 
-    //METODO CONNECT
+    //Metodo Connect
     public boolean connect(T from, T to) {
         //Verificamos si los vertices from y to pertenecen al HashMap.
         if (contains(from) && contains(to)) {
@@ -51,17 +51,17 @@ class AdjacencyListGraph<T> implements Graph<T> {
             if (!sucesores.contains(to)) {
                 //Si no existe lo agregamos usando .add
                 sucesores.add(to);
-                System.out.println("Se ha agregado el arco "+from+" - "+to+" con exito.");
+                System.out.println("Se ha agregado el arco ("+from+", "+to+") con exito.");
                 return true;
             }
         }
         /**Si alguno de los vertices (from o to) no pertenecen al HashMap, o
          * el arco from-to ya existe entonces se retorna false.*/
-        System.out.println("No se ha podido agregar el arco "+from+" - "+to+" .");
+        System.out.println("No se ha podido agregar el arco ("+from+", "+to+").");
         return false;
     }
 
-    //METODO DISCONNET
+    //Metodo Disconnect
     public boolean disconnect(T from, T to) {
         //Verificamos si los vertices from y to pertenecen al HashMap.
         if (contains(from) && contains(to)) {
@@ -72,20 +72,24 @@ class AdjacencyListGraph<T> implements Graph<T> {
              * Esta llamada devuelve true si el elemento se encontraba en la lista y se 
              * eliminó exitosamente, y devuelve false si el elemento no se encontraba en
              *  la lista*/
-            System.out.println("Se ha eliminado el arco "+from+" - "+to+" con exito.");
-            return sucesores.remove(to);
+            if (sucesores.remove(to)) {
+                System.out.println("Se ha eliminado el arco ("+from+", "+to+") con exito.");
+                return true;
+            }
+            System.out.println("El arco ("+from+", "+to+") no existe.");
+            return false;
         }
-        System.out.println("No se ha podido eliminar el arco "+from+" - "+to+" .");
+        System.out.println("Falta uno de los vertices indicados.");
         return false;
     }
 
-    //METODO CONTAINS
+    //Metodo Contains
     public boolean contains(T vertex) {
-        /**Usanmos el método .containsKey() propio de la clase HashMap para verificar si 
+        /**Usamos el método .containsKey() propio de la clase HashMap para verificar si 
          * la clave vertex está presente en el mapa. Si lo esta retorna true, si no
          * retorna false.*/
         boolean x = adjacencyMap.containsKey(vertex);
-        if (x == true){
+        if (x == true) {
             System.out.println("El grafo contiene al vertice "+vertex);
         } else {
             System.out.println("El grafo no contiene al vertice "+vertex);
@@ -93,9 +97,9 @@ class AdjacencyListGraph<T> implements Graph<T> {
         return x;
     }
 
-    //METODO GETINWARDEDGES
+    //Metodo GetInwardEdges
     public List<T> getInwardEdges(T to) {
-        /**Creamos una lista nueva para almacenar los vértices que tienen arcos dirigidas 
+        /**Creamos una lista nueva para almacenar los vértices que tienen arcos 
          * hacia el vertice to.*/
         List<T> predecesores = new ArrayList<>();
         /**Usamos el metodo .keyset() de la clase HashMap para iterar sobre todos los 
@@ -115,7 +119,7 @@ class AdjacencyListGraph<T> implements Graph<T> {
         return predecesores;
     }
 
-    //METODO GETOUTWARDEDGES
+    //Metodo GetOutwardEdges
     public List<T> getOutwardEdges(T from) {
         //Usamos contains() para verificar que el vertice from pertenezca al HashMap.
         if (contains(from)) {
@@ -123,45 +127,32 @@ class AdjacencyListGraph<T> implements Graph<T> {
              * la lista de sucesores del vertice from.*/
             return adjacencyMap.get(from);
         }
-        //Si no pertenece se retorna un ArrayList vacio.
-        return new ArrayList<>();
     }
 
-    //METODO GETVERTICESCONNECTEDTO
+    //Metodo GetVerticesConnectedTo
     public List<T> getVerticesConnectedTo(T vertex) {
         //Usamos contains() para verificar que el vertice vertex pertenezca al HashMap.
         if (contains(vertex)) {
             /**Creamos una lista nueva para almacenar los vértices que estan conectados
              * al vertice vertex.*/
-            List<T> adyacentesVertex = new ArrayList<>();
-            /**Usamos el metodo .keyset() de la clase HashMap para iterar sobre todos los 
-             * vertices del mapa.*/
-            for (T v : adjacencyMap.keySet()) {
-                /**Buscamos la lista de los sucesores del vertice v usando el metodo 
-                 * .get() del HashMap.*/
-                List<T> sucesores = adjacencyMap.get(v);
-                /**Usamos el metodo .contains() de la clase ArrayList para verificar si la 
-                 * lista de sucesores contiene al vertice vertex.*/
-                if (sucesores.contains(vertex)) {
-                    /**Si vertex forma parte de los sucesores de v, entonces agregamos 
-                     * el vertice v a la lista de adyacentes de vertex.*/
-                    adyacentesVertex.add(v);
-                }
-            }
-            return adyacentesVertex;
+            List<T> adjacentVertex = new ArrayList<>();
+            //Se agregan todo los vertices de las listas de sucesores y predecesores directos de vertex
+            adjacentVertex.addAll(getOutwardEdges(vertex));
+            adjacentVertex.addAll(getInwardEdges(vertex));
+            return adjacentVertex;
         }
         //Si vertex no pertenece al HashMap se retorna un ArrayList vacio.
         return new ArrayList<>();
     }
 
-    //METODO GETALLVERTICES
+    //Metodo GetAllVertices
     public List<T> getAllVertices() {
         /**Usamos el metodo .keyset() de la clase HashMap para devolver un ArrayList 
          * con todos los elementos dentro del HashMap */
         return new ArrayList<>(adjacencyMap.keySet());
     }
 
-    //METODO REMOVE
+    //Metodo Remove
     public boolean remove(T vertex) {
         //Usamos contains() para verificar que el vertice vertex pertenezca al HashMap.
         if (contains(vertex)) {
@@ -183,14 +174,14 @@ class AdjacencyListGraph<T> implements Graph<T> {
         return false;
     }
 
-    //METODO SIZE
+    //Metodo Size
     public int size() {
         //Usamos el metodo .size() de la clase HashMap.
         System.out.println(adjacencyMap.size());
         return adjacencyMap.size();
     }
 
-    //METODO SUBGRAPH
+    //Metodo Subgraph
     public Graph<T> subgraph(Collection<T> vertices) {
         //Creamos un nuevo objeto tipo Graph<T>.
         Graph<T> subgraph = new AdjacencyListGraph<>();

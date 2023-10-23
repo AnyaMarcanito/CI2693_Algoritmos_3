@@ -186,6 +186,7 @@ class AdjacencyListGraph<T> implements Graph<T> {
     //METODO SIZE
     public int size() {
         //Usamos el metodo .size() de la clase HashMap.
+        System.out.println(adjacencyMap.size());
         return adjacencyMap.size();
     }
 

@@ -187,6 +187,7 @@ class AdjacencyListGraph<T> implements Graph<T> {
     //METODO SIZE
     public int size() {
         //Usamos el metodo .size() de la clase HashMap.
+        System.out.println(adjacencyMap.size());
         return adjacencyMap.size();
     }
 
@@ -232,10 +233,31 @@ public class main {
 
         // Conectar vértices en el grafo
         graph.connect("A", "B");
+        graph.connect("A", "C");
+        graph.connect("A", "D");
+        graph.connect("A", "E");
         graph.connect("B", "C");
+        graph.connect("B", "A");
+        graph.connect("B", "D");
+        graph.connect("B", "E");
         graph.connect("C", "D");
         graph.connect("D", "E");
         graph.connect("E", "A");
+
+        // Desconectar vertices en el grafo
+        graph.disconnect("A", "C");
+        graph.disconnect("A", "E");
+
+        // Ver si un vertice esta en el grafo
+        graph.contains("F");
+        graph.contains("A");
+
+        // Ver arcos entrantes y salientes
+        graph.getInwardEdges("E");
+        graph.getOutwardEdges("A");
+
+        // Ver el tamano del grafo
+        graph.size();
 
         // Obtener todos los vértices del grafo
         List<String> allVertices = graph.getAllVertices();

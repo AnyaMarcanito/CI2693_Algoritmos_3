@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 interface Graph<T> {
     boolean add(T vertex);
@@ -127,19 +129,21 @@ class AdjacencyListGraph<T> implements Graph<T> {
              * la lista de sucesores del vertice from.*/
             return adjacencyMap.get(from);
         }
+        //Si vertex no pertenece al HashMap se retorna un ArrayList vacio.
+        return new ArrayList<>();
     }
 
     //Metodo GetVerticesConnectedTo
     public List<T> getVerticesConnectedTo(T vertex) {
         //Usamos contains() para verificar que el vertice vertex pertenezca al HashMap.
         if (contains(vertex)) {
-            /**Creamos una lista nueva para almacenar los vértices que estan conectados
-             * al vertice vertex.*/
-            List<T> adjacentVertex = new ArrayList<>();
-            //Se agregan todo los vertices de las listas de sucesores y predecesores directos de vertex
-            adjacentVertex.addAll(getOutwardEdges(vertex));
+            /**Creamos un conjunto nuevo para almacenar los vértices que estan conectados
+             * al vertice vertex e introducimos los sucesores*/
+            Set<T> adjacentVertex = new HashSet<>(getOutwardEdges(vertex));
+            //Se agregan los predecesores.
             adjacentVertex.addAll(getInwardEdges(vertex));
-            return adjacentVertex;
+            //Se retorna el conjunto como lista.
+            return new ArrayList<>(adjacentVertex);
         }
         //Si vertex no pertenece al HashMap se retorna un ArrayList vacio.
         return new ArrayList<>();

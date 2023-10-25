@@ -140,9 +140,14 @@ pertence, es añadido con add(), se obtiene la lista asociada con GetOutwardEdge
 sobre el mismo y se filtran todos los vertices que si esten dentro de la coleccion para añadirlos
 con add() y conectarlos al vertice con connect().
 
+Cabe acotar que si ninguno de los vértices que pertenecen a la colección que es introducida 
+pertenecen al grafo original, entonces se retornara un subgrafo vacío.
+
 Tenemos un bucle for anidado dentro de otro bucle for, donde el bucle mas interno realiza
 las operaciones add() y connect(), donde connect() es la operación más costosa con complejidad
 lineal, con lo cual el peor caso sería O(n^3).
+
+
 
                                         Observaciones y Consideraciones sobre la implementación
 

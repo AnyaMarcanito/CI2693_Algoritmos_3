@@ -34,11 +34,9 @@ class AdjacencyListGraph<T> implements Graph<T> {
         if (!contains(vertex)) {
             //Si no pertenece es agregado al HashMap y se retorna true.
             adjacencyMap.put(vertex, new ArrayList<>());
-            System.out.println("Se ha agregado el vertice "+vertex+" con exito.");
             return true;
         }
         //Si pertenece se retorna false.
-        System.out.println("El vertice "+vertex+", ya pertenece al conjunto de vertices del grafo.");
         return false;
     }
 
@@ -53,13 +51,11 @@ class AdjacencyListGraph<T> implements Graph<T> {
             if (!sucesores.contains(to)) {
                 //Si no existe lo agregamos usando .add
                 sucesores.add(to);
-                System.out.println("Se ha agregado el arco ("+from+", "+to+") con exito.");
                 return true;
             }
         }
         /**Si alguno de los vertices (from o to) no pertenecen al HashMap, o
          * el arco from-to ya existe entonces se retorna false.*/
-        System.out.println("No se ha podido agregar el arco ("+from+", "+to+").");
         return false;
     }
 
@@ -74,14 +70,8 @@ class AdjacencyListGraph<T> implements Graph<T> {
              * Esta llamada devuelve true si el elemento se encontraba en la lista y se 
              * eliminó exitosamente, y devuelve false si el elemento no se encontraba en
              *  la lista*/
-            if (sucesores.remove(to)) {
-                System.out.println("Se ha eliminado el arco ("+from+", "+to+") con exito.");
-                return true;
-            }
-            System.out.println("El arco ("+from+", "+to+") no existe.");
-            return false;
+            return sucesores.remove(to);
         }
-        System.out.println("Falta uno de los vertices indicados.");
         return false;
     }
 
@@ -91,11 +81,6 @@ class AdjacencyListGraph<T> implements Graph<T> {
          * la clave vertex está presente en el mapa. Si lo esta retorna true, si no
          * retorna false.*/
         boolean x = adjacencyMap.containsKey(vertex);
-        if (x == true) {
-            System.out.println("El grafo contiene al vertice "+vertex);
-        } else {
-            System.out.println("El grafo no contiene al vertice "+vertex);
-        }
         return x;
     }
 
@@ -170,18 +155,15 @@ class AdjacencyListGraph<T> implements Graph<T> {
                  * el vértice vertex de todas las listas de sucesores.*/
                 sucesores.remove(vertex);
             }
-            System.out.println("El vertice "+vertex+" ha sido eliminado del grafo.");
             return true;
         }
         //Si el vertice vertex no pertenece se retorna false.
-        System.out.println("El vertice "+vertex+" no pertenece al grafo");
         return false;
     }
 
     //Metodo Size
     public int size() {
         //Usamos el metodo .size() de la clase HashMap.
-        System.out.println(adjacencyMap.size());
         return adjacencyMap.size();
     }
 

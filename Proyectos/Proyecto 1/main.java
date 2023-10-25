@@ -7,42 +7,42 @@ public class main {
         Graph<String> graph = new AdjacencyListGraph<>();
 
         // Agregar vértices al grafo
-        graph.add("A");
-        graph.add("B");
-        graph.add("C");
-        graph.add("D");
-        graph.add("E");
-        graph.add("A");
+        System.out.println(graph.add("A"));
+        System.out.println(graph.add("B"));
+        System.out.println(graph.add("C"));
+        System.out.println(graph.add("D"));
+        System.out.println(graph.add("E"));
+        System.out.println(graph.add("A"));
         System.out.println("----------------------------------------------------------------");
 
         // Conectar vértices en el grafo
-        graph.connect("A", "B");
-        graph.connect("A", "A");
-        graph.connect("A", "C");
-        graph.connect("A", "D");
-        graph.connect("A", "E");
-        graph.connect("B", "C");
-        graph.connect("B", "A");
-        graph.connect("B", "D");
-        graph.connect("B", "E");
-        graph.connect("C", "D");
-        graph.connect("D", "E");
-        graph.connect("E", "A");
-        graph.connect("E", "G");
-        graph.connect("G", "B");
-        graph.connect("E", "E");
+        System.out.println(graph.connect("A", "B"));
+        System.out.println(graph.connect("A", "A"));
+        System.out.println(graph.connect("A", "C"));
+        System.out.println(graph.connect("A", "D"));
+        System.out.println(graph.connect("A", "E"));
+        System.out.println(graph.connect("B", "C"));
+        System.out.println(graph.connect("B", "A"));
+        System.out.println(graph.connect("B", "D"));
+        System.out.println(graph.connect("B", "E"));
+        System.out.println(graph.connect("C", "D"));
+        System.out.println(graph.connect("D", "E"));
+        System.out.println(graph.connect("E", "A"));
+        System.out.println(graph.connect("E", "G"));
+        System.out.println(graph.connect("G", "B"));
+        System.out.println(graph.connect("E", "E"));
         System.out.println("----------------------------------------------------------------");
 
         // Desconectar vertices en el grafo
-        graph.disconnect("A", "C");
-        graph.disconnect("A", "E");
-        graph.disconnect("G", "E");
-        graph.disconnect("C", "E");
+        System.out.println(graph.disconnect("A", "C"));
+        System.out.println(graph.disconnect("A", "E"));
+        System.out.println(graph.disconnect("G", "E"));
+        System.out.println(graph.disconnect("C", "E"));
         System.out.println("----------------------------------------------------------------");
 
         // Ver si un vertice esta en el grafo
-        graph.contains("F");
-        graph.contains("D");
+        System.out.println(graph.contains("F"));
+        System.out.println(graph.contains("D"));
         System.out.println("----------------------------------------------------------------");
 
         // Ver arcos entrantes y salientes
@@ -59,7 +59,7 @@ public class main {
         System.out.println("----------------------------------------------------------------");
 
         // Ver el tamano del grafo
-        graph.size();
+        System.out.println(graph.size());
         System.out.println("----------------------------------------------------------------");
 
         // Obtener todos los vértices del grafo

@@ -1,12 +1,20 @@
 Universidad Simón Bolívar
+
 Departamento de Computación y Tecnología de la Información.
+
 CI–2693 – Laboratorio de Algoritmos y Estructuras III.
+
 Septiembre–Diciembre 2023
 
+
+
 Alejandro Zambrano 17-10684
+
 Anya Marcano 19-10336
-                                         Proyecto I: Grafo
-                               Implementación con listas de adyacencias
+                                           
+                                                       Proyecto I: Grafo
+                                            Implementación con listas de adyacencias
+
                           
 La implementación diseñada para este proyecto se basa en la creación de una clase 
 AdjacencyListGraph<T> que implemente la interfaz Graph<T> teniendo como atributo 
@@ -18,6 +26,7 @@ Teniéndose como constructor de la clase la inicialización de la variable
 adjacencyMap con un nuevo objeto HashMap, el cual es una implementación de la 
 interfaz Map que utiliza una tabla de hash para almacenar los datos.
 
+
 El principal motivo por el cual se decidió optar por una implementación que 
 utilizara objetos de tipo HashMap en lugar de considerar únicamente el uso de listas 
 enlazadas tuvo que ver con la idea de aprovechar las complejidades de las operaciones
@@ -25,15 +34,20 @@ de insertar, eliminar y buscar elementos propias de las tablas de hash y con ell
 conseguir complejidades más eficientes en la medida de lo posible, idea que resultó 
 en costos computacionales que varían desde complejidades constantes, lineales y 
 cuadráticas como se explican a continuación:
-                          
-Complejidades de los metodos implementados:                          
 
-Metodo Add:
+                          
+                                            Complejidades de los metodos implementados                         
+
+
+➱Método Add:
+
 Se basa en aprovechar el metodo .containsKey() de la clase HashMap implementada en Java, 
 el cual tiene una complejidad constante, independientemente del tamaño del mapa considerado,
 por lo tanto nuestro metodo contains termina teniendo una complejidad O(1) para el peor caso.
 
-Metodo Connect:
+
+➱Método Connect:
+
 Se basa en utilizar el metodo contains para comprobar si los vertices relacionados al arco 
 que se desea crear existen dentro del grafo y de ser así, utiliza el metodo .get() de la clase 
 HashMap y los metodos .contains() y .add() de la clase List de Java para agregar el nuevo arco 
@@ -46,19 +60,25 @@ y el peor caso para .add() es O(1) amortizado, lo que significa que en promedio 
 pero en casos raros puede ser lineal. Considerando todo esto, tenemos que nuestro metodo tiene
 una complejidad O(n) para el peor caso.
 
-Metodo Disconnect:
+
+➱Método Disconnect:
+
 Se basa en hacer uso del metodo contains para comprobar que los vertices relacionados al arco 
 que se desea eliminar existen, ante lo cual son usados sucesivamente los métodos .get() de la 
 clase HashMap yo .remove() de la clase List. La complejidad de .get() es O(1) mientras que la
 de .remove para las listas en Java es O(n) en el peor caso, con esto podemos concluir que
 complejidad del metodo disconnect es O(n) en el peor caso posible.
 
-Metodo Contains:
+
+➱Método Contains:
+
 Se basa en aprovechar el metodo .containsKey() de la clase HashMap implementada en Java,
 el cual tiene una complejidad constante, independientemente del tamaño del mapa considerado,
 por lo tanto nuestro metodo contains termina teniendo una complejidad O(1) para el peor caso.
 
-Metodo GetInwardEdges:
+
+➱Método GetInwardEdges:
+
 Se basa en un bucle for sobre todo el mapa de vertices, obteniendo cada lista con .get() y
 confirmando si nuestro vertice de llegada se encuentra en la lista del vertice actual, en cuyo
 caso se agrega a la lista de adyacentes. Tenemos que la operacion más costosa corresponde
@@ -66,12 +86,16 @@ con el metodo .contains() para List de Java que se encuentra anidado dentro
 de nuestro bucle for, como .contains() es O(n) e iteramos n veces donde n es la cardinalidad
 del conjunto de vertices, tenemos que este metodo es O(n^2) en el peor caso.
 
-Metodo GetOutwardEdges:
+
+➱Método GetOutwardEdges:
+
 Se basa en usar el metodo contains() para verificar si el vértice está en el mapa, en cuyo
 caso se utiliza el metodo .get() para obtener su lista de sucesores inmediatos. Como ambos 
 métodos son O(1), tenemos que getOutwardEdgespor tiene una complejidad O(1).
 
-Metodo GetVerticesConnectedTo:
+
+➱Método GetVerticesConnectedTo:
+
 Se basa en usar el metodo contains() para verificar si el vertice esta en el mapa, de ser asi,
 se crea un Set inicializado con GetOutwardEdges para posteriormente añadir con .addAll() vertices
 faltantes con GetInwardEdges en una llamada directa. Tras esto se regresa una Lista con todos
@@ -85,11 +109,15 @@ simplemente ahorrando lineas de codigo y dando un resultado mas límpio.
 Al haber una llamada de GetInwardEdges, tenemos que la complejidad en el tiempo de este método
 es O(n^2) en el peor de los casos, al ser esta la operacion con mayor costo.
 
-Metodo GetAllVertices:
+
+➱Método GetAllVertices:
+
 Se basa en simplemente devolver una lista con todos los vertices usando .keySet() de HashMap.
 Esto tiene una complejidad en Java de O(1) para el peor caso.
 
-Metodo Remove:
+
+➱Método Remove:
+
 Se basa en verificar la pertenencia del vértice con contains(), en caso positivo se hace uso del
 metodo .remove() de HashMap, para luego entrar en un bucle for de todas las listas en el mapa,
 sobre las cuales se aplicará .remove() de List. El metodo .remove() de HashMap es O(1), mientras
@@ -97,11 +125,15 @@ que el de list es O(n) en el peor de los casos. Al estar el .remove() de List an
 for, tenemos que el costo de dicha operación será O(n^2) y al ser la más costosa esa será
 la complejidad del metodo.
 
-Metodo Size:
+
+➱Método Size:
+
 Se basa simplemente en usar el metodo .size() de HashMap, con lo cual, como su complejidad es O(1), 
 entonces nuestro metodo size también es O(1) para el peor de los casos.
 
-Metodo Subgraph:
+
+➱Método Subgraph:
+
 Se basa en crear un nuevo Grafo, para luego iterar sobre todos los vertices de la colección dada,
 filtrando cada vertice que no pertenezca al Grafo original con el metodo contains(). Si el vertice
 pertence, es añadido con add(), se obtiene la lista asociada con GetOutwardEdges(), para iterar
@@ -112,7 +144,7 @@ Tenemos un bucle for anidado dentro de otro bucle for, donde el bucle mas intern
 las operaciones add() y connect(), donde connect() es la operación más costosa con complejidad
 lineal, con lo cual el peor caso sería O(n^3).
 
-Observaciones:
+                                        Observaciones y Consideraciones sobre la implementación
 
 Pese a que se obtuvieron ciertos beneficios por parte del uso de los objetos tipo HashMap,
 como puede ser el hecho de que las operaciones .add(), .contains(), size(), .getAllVertices(), y

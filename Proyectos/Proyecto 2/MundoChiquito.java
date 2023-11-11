@@ -37,6 +37,22 @@ public class MundoChiquito {
                 CartaMostro carta = new CartaMostro(nombre, nivel, poder, atributo);
                 //Agregamos la carta al grafo.
                 graph.add(carta);
+                //algo algo comparar
+                if (graph.size() > 1) {
+                    for (mostro : graph.getAllVertices()) {
+                        boolean niveles = carta.getNivel() == mostro.getNivel();
+                        boolean poderes = carta.getPoder() == mostro.getPoder();
+                        boolean atributos = carta.getAtributo() == mostro.getAtributo();
+                        if (niveles && !poderes && !atributos) {
+                            graph.connect(carta, mostro);
+                            graph.connect(mostro, carta);
+                        } else if (!niveles && poderes && !atributos) {
+                            graph.connect(carta, mostro);
+                            graph.connect(mostro, carta);
+                        } else if (!niveles && !poderes && atributos) {
+                            graph.connect(carta, mostro);
+                            graph.connect(mostro, carta);
+                        }
             }
             scanner.close();
         } catch (FileNotFoundException e) {

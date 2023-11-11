@@ -22,9 +22,13 @@ public class MundoChiquito {
 
     public static boolean compartenUnaCaracteristica(CartaMostro mostro1, CartaMostro mostro2) {
         int caracteristicasEnComun = 0;
-        if (mostro1.getNivel() == mostro2.getNivel()) caracteristicasEnComun++;
-        if (mostro1.getPoder() == mostro2.getPoder()) caracteristicasEnComun++;
-        if (mostro1.getAtributo().equals(mostro2.getAtributo())) caracteristicasEnComun++;
+        if (mostro1.getNivel() == mostro2.getNivel()) {
+            caracteristicasEnComun++;
+        } else if (mostro1.getPoder() == mostro2.getPoder()) {
+            caracteristicasEnComun++;
+        } else if (mostro1.getAtributo().equals(mostro2.getAtributo())) {
+            caracteristicasEnComun++;
+        }
         return caracteristicasEnComun == 1;
     }
     

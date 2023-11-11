@@ -3,10 +3,17 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class MundoChiquito {
+
     public static void ternaChiquita(Graph<CartaMostro> graph) {
+
+        //Dado el grafo de cartas mostro, encuentra toda las ternas que cumplen con las condiciones.
+        //Iteramos sobre cada carta mostro del grafo.
         for (CartaMostro mostro1 : graph.getAllVertices()) {
-            for (CartaMostro mostro2 : getOutwardEdges(mostro1)) {
-                for (CartaMostro mostro3 : getOutwardEdges(mostro2)) {
+            //Iteramos sobre cada carta mostro conectada a la carta mostro actual.
+            for (CartaMostro mostro2 : graph.getOutwardEdges(mostro1)) {
+                //Iteramos sobre cada carta mostro conectada a la carta mostro anterior.
+                for (CartaMostro mostro3 : graph.getOutwardEdges(mostro2)) {
+                    //Imprimimos la terna de cartas mostro si esta existe.
                     System.out.println(mostro1.getNombre() + " " + mostro2.getNombre() + " " + mostro3.getNombre());
                 }
             }
@@ -50,12 +57,15 @@ public class MundoChiquito {
                         boolean atributos = carta.getAtributo() == mostro.getAtributo();
                         //Verificamos que se cumpla exactamente una de las condiciones.
                         if (niveles && !poderes && !atributos) {
+                            //Conectamos en ambos sentidos las cartas mostro.
                             graph.connect(carta, mostro);
                             graph.connect(mostro, carta);
                         } else if (!niveles && poderes && !atributos) {
+                            //Conectamos en ambos sentidos las cartas mostro.
                             graph.connect(carta, mostro);
                             graph.connect(mostro, carta);
                         } else if (!niveles && !poderes && atributos) {
+                            //Conectamos en ambos sentidos las cartas mostro.
                             graph.connect(carta, mostro);
                             graph.connect(mostro, carta);
                         }

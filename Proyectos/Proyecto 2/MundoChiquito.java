@@ -33,17 +33,19 @@ public class MundoChiquito {
             boolean firstLine = true;
             //Iteramos sobre cada linea del archivo.
             while (scanner.hasNextLine()) {
-                //Saltamos la primera linea.
+                // Saltamos la primera línea.
                 if (firstLine) {
+                    scanner.nextLine();
                     firstLine = false;
                     continue;
                 }
-                //Leemos la linea y la separamos por comas.
+                // Leemos la línea y la separamos por comas.
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
-                //Creamos un objeto de tipo CartaMostro con los datos de la linea.
+                // Creamos un objeto de tipo CartaMostro con los datos de la línea.
                 String nombre = data[0];
                 int nivel = Integer.parseInt(data[1]);
+
                 String atributo = data[2];
                 int poder = Integer.parseInt(data[3]);
                 CartaMostro carta = new CartaMostro(nombre, nivel, poder, atributo);

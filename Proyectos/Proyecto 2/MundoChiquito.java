@@ -1,8 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
 
 public class MundoChiquito {
+    public static void ternaChiquita(Graph<CartaMostro> graph) {
+    }
     
     public static void main(String[] args) {
         //Creamos un grafo de tipo AdjacencyListGraph.

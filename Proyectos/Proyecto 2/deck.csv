@@ -2,3 +2,10 @@ Nombre,Nivel,Atributo,Poder
 mostroUno,5,LUZ,2100
 mostroDos,7,LUZ,2400
 mostroTres,7,VIENTO,2500
+mostroCuatro,6,AGUA,2200
+mostroCinco,8,TIERRA,2300
+mostroSeis,9,LUZ,2400
+mostroSiete,10,FUEGO,2500
+mostroOcho,11,AGUA,2600
+mostroNueve,12,TIERRA,2700
+mostroDiez,1,OSCURIDAD,2800

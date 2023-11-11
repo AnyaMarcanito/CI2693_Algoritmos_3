@@ -19,6 +19,14 @@ public class MundoChiquito {
             }
         }
     }
+
+    public static boolean compartenUnaCaracteristica(CartaMostro mostro1, CartaMostro mostro2) {
+        int caracteristicasEnComun = 0;
+        if (mostro1.getNivel() == mostro2.getNivel()) caracteristicasEnComun++;
+        if (mostro1.getPoder() == mostro2.getPoder()) caracteristicasEnComun++;
+        if (mostro1.getAtributo().equals(mostro2.getAtributo())) caracteristicasEnComun++;
+        return caracteristicasEnComun == 1;
+    }
     
     public static void main(String[] args) {
         //Creamos un grafo de tipo AdjacencyListGraph.
@@ -52,7 +60,7 @@ public class MundoChiquito {
                 //Agregamos la carta al grafo.
                 graph.add(carta);
                 //Conectamos la carta con las cartas mostro que cumplan con las condiciones.
-                if (graph.size() > 1) {
+                /*if (graph.size() > 1){
                     for (CartaMostro mostro : graph.getAllVertices()) {
                         boolean niveles = carta.getNivel() == mostro.getNivel();
                         boolean poderes = carta.getPoder() == mostro.getPoder();
@@ -72,13 +80,22 @@ public class MundoChiquito {
                             graph.connect(mostro, carta);
                         }
                     }
-                }
+                }*/
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             //Si no se encuentra el archivo input.txt se imprime un mensaje de error.
             System.out.println("No se pudo encontrar el archivo deck.csv");
             return;
+        }
+
+        for (CartaMostro mostro1 : graph.getAllVertices()) {
+            for (CartaMostro mostro2 : graph.getAllVertices()) {
+                if (mostro1 != mostro2 && compartenUnaCaracteristica(mostro1, mostro2)) {
+                    graph.connect(mostro1, mostro2);
+                    graph.connect(mostro2, mostro1);
+                }
+            }
         }
         ternaChiquita(graph);
     }

@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.HashSet;
 
 public class MundoChiquito {
     public static void ternaChiquita(Graph<CartaMostro> graph) {
@@ -37,12 +35,13 @@ public class MundoChiquito {
                 CartaMostro carta = new CartaMostro(nombre, nivel, poder, atributo);
                 //Agregamos la carta al grafo.
                 graph.add(carta);
-                //algo algo comparar
+                //Conectamos la carta con las cartas mostro que cumplan con las condiciones.
                 if (graph.size() > 1) {
-                    for (mostro : graph.getAllVertices()) {
+                    for (CartaMostro mostro : graph.getAllVertices()) {
                         boolean niveles = carta.getNivel() == mostro.getNivel();
                         boolean poderes = carta.getPoder() == mostro.getPoder();
                         boolean atributos = carta.getAtributo() == mostro.getAtributo();
+                        //Verificamos que se cumpla exactamente una de las condiciones.
                         if (niveles && !poderes && !atributos) {
                             graph.connect(carta, mostro);
                             graph.connect(mostro, carta);
@@ -53,6 +52,8 @@ public class MundoChiquito {
                             graph.connect(carta, mostro);
                             graph.connect(mostro, carta);
                         }
+                    }
+                }
             }
             scanner.close();
         } catch (FileNotFoundException e) {

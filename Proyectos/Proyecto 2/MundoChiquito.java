@@ -4,6 +4,13 @@ import java.util.Scanner;
 
 public class MundoChiquito {
     public static void ternaChiquita(Graph<CartaMostro> graph) {
+        for (CartaMostro mostro1 : graph.getAllVertices()) {
+            for (CartaMostro mostro2 : getOutwardEdges(mostro1)) {
+                for (CartaMostro mostro3 : getOutwardEdges(mostro2)) {
+                    System.out.println(mostro1.getNombre() + " " + mostro2.getNombre() + " " + mostro3.getNombre());
+                }
+            }
+        }
     }
     
     public static void main(String[] args) {
@@ -61,5 +68,6 @@ public class MundoChiquito {
             System.out.println("No se pudo encontrar el archivo deck.csv");
             return;
         }
+        ternaChiquita(graph);
     }
 }

@@ -1,6 +1,14 @@
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * La clase CartaMostro representa una carta de monstruo en un juego de cartas. 
+ * Cada carta tiene un nombre, nivel, poder y atributo. 
+ * El nombre no puede ser null o vacío, el nivel debe estar entre 1 y 12, 
+ * el poder debe ser un múltiplo de 50, y el atributo debe ser uno de los siguientes: 
+ * AGUA, FUEGO, VIENTO, TIERRA, LUZ, OSCURIDAD, DIVINO.
+ * Además, no puede haber dos cartas con el mismo nombre.
+ */
 public class CartaMostro {
     private String nombre;
     private int nivel;

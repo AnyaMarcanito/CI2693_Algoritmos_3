@@ -4,9 +4,14 @@ import java.util.Scanner;
 
 public class MundoChiquito {
 
+    /**
+     * Dado el grafo de cartas mostro, imprime todas las ternas que se conectaron 
+     * cumpliendo con las condiciones.
+     * @param graph el grafo de cartas mostro
+     */
     public static void ternaChiquita(Graph<CartaMostro> graph) {
-
-        //Dado el grafo de cartas mostro, encuentra toda las ternas que cumplen con las condiciones.
+        //Dado el grafo de cartas mostro, encuentra toda las ternas que cumplen con 
+        //las condiciones.
         //Iteramos sobre cada carta mostro del grafo.
         for (CartaMostro mostro1 : graph.getAllVertices()) {
             //Iteramos sobre cada carta mostro conectada a la carta mostro actual.
@@ -20,6 +25,15 @@ public class MundoChiquito {
         }
     }
 
+    /**
+     * Compara dos cartas de monstro y devuelve verdadero si tienen exactamente una 
+     * característica en común.
+     * Las características comparadas son nivel, poder y atributo.
+     * @param mostro1 la primera carta de monstro a comparar.
+     * @param mostro2 la segunda carta de monstro a comparar.
+     * @return verdadero si las cartas tienen exactamente una característica en común, 
+     * falso de lo contrario.
+     */
     public static boolean compartenUnaCaracteristica(CartaMostro mostro1, CartaMostro mostro2) {
         int caracteristicasEnComun = 0;
         if (mostro1.getNivel() == mostro2.getNivel()) caracteristicasEnComun++;
@@ -66,15 +80,21 @@ public class MundoChiquito {
             System.out.println("No se pudo encontrar el archivo deck.csv");
             return;
         }
-
+        //Iteramos sobre cada carta mostro del grafo.
         for (CartaMostro mostro1 : graph.getAllVertices()) {
+            //Iteramos otra vez sobre cada carta mostro del grafo para conectar las cartas 
+            //mostro que comparten exactamente una característica.
             for (CartaMostro mostro2 : graph.getAllVertices()) {
+                //Verificamos que las cartas mostro sean distintas y que compartan exactamente 
+                //una característica con el metodo compartenUnaCaracteristica()
                 if (mostro1 != mostro2 && compartenUnaCaracteristica(mostro1, mostro2)) {
+                    //Conectamos las cartas mostro en ambas direcciones.
                     graph.connect(mostro1, mostro2);
                     graph.connect(mostro2, mostro1);
                 }
             }
         }
+        //Imprimimos las ternas de cartas mostro que cumplen con las condiciones con el metodo ternaChiquita().
         ternaChiquita(graph);
     }
 }

@@ -65,6 +65,83 @@ public class AlfonsoJose {
         }
         return matriz;
     }
+
+    private static int valueK(int i, int j, int n, int m) {
+        if ( i != j) {
+            return i - j;
+        } else {
+            return i * n * m;
+        }
+    }
+
+    private static Graph<Vertex<Integer>> createGraph(int [][] matriz) {
+        // Creamos el grafo de vertices.
+        Graph<Vertex<Integer>> graph = new AdjacencyListGraph<>();
+        // Recolectamos las dimensiones de la matriz nxm.
+        int n = matriz.length;
+        int m = matriz[0].length;
+        // Recorremos la matriz de vertices.
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                // Creamos un valor unico para el vertice del grafo
+                int k = valueK(i, j, n, m);
+                // Creamos el vertices a añadir al grafo.
+                Vertex torre = new Vertex(k);
+                // Colocamos su altura.
+                torre.setHeight(matriz[i][j]);
+                // Si se encuentra en uno de los bordes, contamos que el agua se puede derramar por el.
+                if (i == 0 || i == n-1 || j == 0 || j == m-1) {
+                    torre.setSpills(true);
+                }
+                // Añadimos al vertice.
+                graph.add(torre);
+                // Luego, conectamos el vertice a sus vertices adyacentes:
+                // Caso particular 1, primera posicion:
+                if (i == 0 && j == 0) {
+                    // Discriminador de caso borde "solo hay una columna".
+                    if (m > 1) {
+                        if (torre.getHeight() >= matriz[i][j+1]) {
+                            Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                            graph.add(torreDerecha);
+                            graph.connect(torre, torreDerecha);
+                        }
+                    }
+                    // Discriminador de caso brode "solo hay una fila".
+                    if (n > 1) {
+                        if (torre.getHeight() >= matriz[i+1][j]) {
+                            Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                            graph.add(torreInferior);
+                            graph.connect(torre, torreInferior);
+                        }
+                    }
+                }
+                // Caso general 1, primera fila:
+                if (i == 0 && j > 0 && j != m-1) {
+                    if (torre.getHeight() >= matriz[i][j-1]) {
+                        Vertex torreIzquierda = new Vertex(valueK(i, j-1, n, m));
+                        graph.add(torreIzquierda);
+                        graph.connect(torre, torreIzquierda);
+                    }
+                    // Discriminador de caso borde "solo hay una columna".
+                    if (m > 1) {
+                        if (torre.getHeight() >= matriz[i][j+1]) {
+                            Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                            graph.add(torreDerecha);
+                            graph.connect(torre, torreDerecha);
+                        }
+                    }
+                    // Discriminador de caso brode "solo hay una fila".
+                    if (n > 1) {
+                        if (torre.getHeight() >= matriz[i+1][j]) {
+                            Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                            graph.add(torreInferior);
+                            graph.connect(torre, torreInferior);
+                        }
+                    }
+                }
+            }
+        }
+    }
     
    
 }

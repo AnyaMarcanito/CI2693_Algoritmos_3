@@ -87,11 +87,7 @@ public class AlfonsoJose {
     }
 
     private static int valueK(int i, int j, int n, int m) {
-        if ( i != j) {
-            return i - j;
-        } else {
-            return i * n * m;
-        }
+        return (i*n*m)+j;
     }
 
     private static Graph<Vertex<Integer>> createGraph(int [][] matriz) {
@@ -101,6 +97,7 @@ public class AlfonsoJose {
         int n = matriz.length;
         int m = matriz[0].length;
         // Recorremos la matriz de vertices.
+        System.out.println("Valores de k: ");
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 // Creamos un valor unico para el vertice del grafo
@@ -338,6 +335,7 @@ public class AlfonsoJose {
                 }
             }
         }
+        System.out.println(" ");
         return graph;
     }
 

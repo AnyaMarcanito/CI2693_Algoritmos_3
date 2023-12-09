@@ -18,10 +18,11 @@ interface Graph<T> {
     boolean remove(T vertex);
     int size();
     Graph<T> subgraph(Collection<T> vertices);
+    Graph<T> getSimetric();
 }
 
 class AdjacencyListGraph<T> implements Graph<T> {
-    private Map<T, List<T>> adjacencyMap;
+    private Map<T, HashSet<T>> adjacencyMap;
 
     //Metodo Constructor
     public AdjacencyListGraph() {
@@ -33,7 +34,7 @@ class AdjacencyListGraph<T> implements Graph<T> {
         //Verificamos si el vertice que queremos agregar ya pertenece al HashMap.
         if (!contains(vertex)) {
             //Si no pertenece es agregado al HashMap y se retorna true.
-            adjacencyMap.put(vertex, new ArrayList<>());
+            adjacencyMap.put(vertex, new HashSet<T>());
             return true;
         }
         //Si pertenece se retorna false.
@@ -46,7 +47,7 @@ class AdjacencyListGraph<T> implements Graph<T> {
         if (contains(from) && contains(to)) {
             /**Buscamos la lista de los sucesores del vertice from usando el metodo 
              * .get() del HashMap.*/
-            List<T> sucesores = adjacencyMap.get(from);
+            Set<T> sucesores = adjacencyMap.get(from);
             //Verificamos los sucesores para ver si el arco from-to ya existe.
             if (!sucesores.contains(to)) {
                 //Si no existe lo agregamos usando .add
@@ -65,11 +66,11 @@ class AdjacencyListGraph<T> implements Graph<T> {
         if (contains(from) && contains(to)) {
             /**Buscamos la lista de los sucesores del vertice from usando el metodo
              * .get() del HashMap.*/
-            List<T> sucesores = adjacencyMap.get(from);
-            /**Usamos el metodo .remove() de los ArrayList para eliminar el arco from-to.
-             * Esta llamada devuelve true si el elemento se encontraba en la lista y se 
+            Set<T> sucesores = adjacencyMap.get(from);
+            /**Usamos el metodo .remove() de los HashSet para eliminar el arco from-to.
+             * Esta llamada devuelve true si el elemento se encontraba en el conjunto y se 
              * eliminó exitosamente, y devuelve false si el elemento no se encontraba en
-             *  la lista*/
+             *  el conjunto*/
             return sucesores.remove(to);
         }
         return false;
@@ -94,8 +95,8 @@ class AdjacencyListGraph<T> implements Graph<T> {
         for (T vertex : adjacencyMap.keySet()) {
             /**Buscamos la lista de los sucesores del vertice vertex usando el metodo 
              * .get() del HashMap.*/
-            List<T> sucesores = adjacencyMap.get(vertex);
-            /**Usamos el metodo .contains() de la clase ArrayList para verificar si la 
+            Set<T> sucesores = adjacencyMap.get(vertex);
+            /**Usamos el metodo .contains() de la clase HashSet para verificar si la 
              * lista de sucesores contiene al vertice to.*/
             if (sucesores.contains(to)) {
                 /**Si es asi, entonces vertex es un predecesor de to, por lo que lo 
@@ -112,7 +113,9 @@ class AdjacencyListGraph<T> implements Graph<T> {
         if (contains(from)) {
             /**Si pertenece, usamos el metodo .get() de la clase HashMap para retornar
              * la lista de sucesores del vertice from.*/
-            return adjacencyMap.get(from);
+            Set<T> set = adjacencyMap.get(from);
+            List<T> list = new ArrayList<>(set);
+            return list;
         }
         //Si vertex no pertenece al HashMap se retorna un ArrayList vacio.
         return new ArrayList<>();
@@ -150,7 +153,7 @@ class AdjacencyListGraph<T> implements Graph<T> {
             adjacencyMap.remove(vertex);
             /**Usamos el metodo .values() de la clase HashMap para iterar sobre todos
              * los valores del HashMap.*/
-            for (List<T> sucesores : adjacencyMap.values()) {
+            for (Set<T> sucesores : adjacencyMap.values()) {
                 /**Usamos el método .remove() en cada lista de sucesores para eliminar 
                  * el vértice vertex de todas las listas de sucesores.*/
                 sucesores.remove(vertex);
@@ -191,6 +194,29 @@ class AdjacencyListGraph<T> implements Graph<T> {
             }
         }
         return subgraph;
+    }
+
+    //Metodo Simetric
+    public Graph<T> getSimetric() {
+        //Creamos un nuevo objeto tipo Graph<T>.
+        Graph<T> simetric = new AdjacencyListGraph<>();
+        //Iteramos sobre todos los vertices del grafo original.
+        for (T vertex : getAllVertices()) {
+            //Agregamos el vertice vertex al grafo simetric.
+            simetric.add(vertex);
+            //Usamos el metodo getOutwardEdges para conseguir los sucesores de vertex.
+            List<T> sucesores = getOutwardEdges(vertex);
+            //Iteramos sobre cada sucesor de vertex.
+            for (T sucesor : sucesores) {
+                //Conectamos el sucesor con vertex.
+                simetric.connect(sucesor, vertex);
+            }
+
+            for (T predecesor : getInwardEdges(vertex)) {
+                simetric.connect(vertex, predecesor);
+            }
+        }
+        return simetric;
     }
 
 }

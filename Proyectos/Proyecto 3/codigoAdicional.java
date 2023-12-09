@@ -102,7 +102,8 @@ public class codigoAdicional {
             //Si la componente tiene mas de un vertice entonces se crea un vertice representante.
             if (component.size() > 1) {
                 //Se inicializa el vertice representante con el primer vertice de la componente.
-                Vertex<Integer> representante = component.get(0);
+                Vertex<Integer> representante = new Vertex<Integer>(null);
+                representante.setHeight(component.get(0).getHeight());
                 //Se recorren todos los vertices de la componente.
                 for (Vertex<Integer> vertex : component) {
                     //Si algun vertice se derrama entonces el representante tambien se derrama.
@@ -115,18 +116,18 @@ public class codigoAdicional {
                 graph.add(representante);
                 //Se recorren todos los vertices de la componente.
                 for (Vertex<Integer> vertex : component) {
-                        //Se recorren todos los adyacentes del vertice vertex.
-                        for (Vertex<Integer> vecino : graph.getOutwardEdges(vertex)) {
-                            //Si el vecino no pertenece a la componente entonces se conecta al representante.
-                            if (!component.contains(vecino)) {
-                                //Se conecta el representante con el vecino.
-                                graph.connect(representante, vecino);
-                                //Se aumenta el grado de salida del representante.
-                                representante.upOutwardDegree();
-                            }
+                    //Se recorren todos los adyacentes del vertice vertex.
+                    for (Vertex<Integer> vecino : graph.getOutwardEdges(vertex)) {
+                        //Si el vecino no pertenece a la componente entonces se conecta al representante.
+                        if (!component.contains(vecino)) {
+                            //Se conecta el representante con el vecino.
+                            graph.connect(representante, vecino);
+                            //Se aumenta el grado de salida del representante.
+                            representante.upOutwardDegree();
                         }
-                        //Se elimina el vertice vertex del grafo.
-                        graph.remove(vertex);
+                    }
+                    //Se elimina el vertice vertex del grafo.
+                    graph.remove(vertex);
                 }
             }
         }

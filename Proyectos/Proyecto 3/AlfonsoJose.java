@@ -12,10 +12,7 @@ public class AlfonsoJose {
         
     }
     
-    private static Graph<Vertex<Integer>> readMatrixFromFile(String fileName) {
-        // Creamos un grafo vacío de tipo AdjacencyListGraph con vértices Vertex de tipo Integer:
-        Graph<Vertex<Integer>> graph = new AdjacencyListGraph<>();
-    
+    private static int[][] readMatrixFromFile(String fileName) {    
         // Leemos el archivo y agregamos los vértices al grafo:
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             // Leemos la primera línea del archivo:
@@ -36,49 +33,31 @@ public class AlfonsoJose {
                 fila++;
             }
             // Creamos la matriz de alturas de cada torre:
-            int [][] = new int [fila][columna];
-
-                
-                // Definimos un contador para saber en qué columnaumna estamos:
+            int [][] matriz = new int [fila][columna];
+            // Volvemos a iterar, ahora si, sobre todas los valores del archivo.
+            // Colocamos un iterador "i" para controlar las filas.
+            int i = 0;
+            while ((line = reader.readLine() != null) {
+                // Colocamos un iterador "j" para controlar las columnas.
+                int j = 0;
+                String values = line.trim().split(" ");
                 // Iteramos sobre cada valor de la línea:
                 for (String value : values) {
                     // Convertimos el valor a entero:
                     int torre = Integer.parseInt(value);
-                    // Creamos un nuevo vértice con el valor de la torre y asignamos la altura:
-                    Vertex<Integer> vertex = new Vertex<>(torre);
-                    // Asignamos la altura del vértice:
-                    vertex.setHeight(torre);
-                    // Agregamos el vértice al grafo:
-                    graph.add(vertex);
-                    // Conectamos el vértice con sus vecinos:
-
-                    // Si no estamos en la primera fila, conectamos el vértice con el de arriba:
-                    if (fila > 0) {
-                        // El vértice de arriba está en la posición (fila - 1) * values.length + columna:
-                        Vertex<Integer> vertexArriba = verticesList.get((fila - 1) * values.length + columna);
-                        // Conectamos el vértice con el de arriba:
-                        // Y podemos conectarlos porque ya pasamos por el vértice de arriba, es decir, este vertice ya existe en el grafo:
-                        graph.connect(vertexArriba, vertex);
-                    }
-                    // Si no estamos en la primera columnaumna, conectamos el vértice con el de la izquierda:
-                    if (columna > 0) {
-                        // El vértice de la izquierda está en la posición fila * values.length + (columna - 1):
-                        Vertex<Integer> vertexIzquierdo = verticesList.get(fila * values.length + (columna - 1));
-                        // Conectamos el vértice con el de la izquierda:
-                        // Y podemos conectarlos porque ya pasamos por el vértice de la izquierda es decir, este vertice ya existe en el grafo:
-                        graph.connect(vertexIzquierdo, vertex);
-                    }
+                    // Añadimos el valor a la matriz en la posición i, j;
+                    matriz[i][j] = torre;
                     // Incrementamos el contador de columna:
-                    columna++;
+                    j++;
                 }
                 // Incrementamos el contador de fila:
-                fila++;
+                i++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     
-        return graph;
+        return matriz;
     }
     
    

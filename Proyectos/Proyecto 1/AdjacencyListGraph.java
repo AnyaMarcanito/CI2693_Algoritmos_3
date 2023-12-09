@@ -18,6 +18,7 @@ interface Graph<T> {
     boolean remove(T vertex);
     int size();
     Graph<T> subgraph(Collection<T> vertices);
+    Graph<Vertex<Integer>> getSimetric();
 }
 
 class AdjacencyListGraph<T> implements Graph<T> {

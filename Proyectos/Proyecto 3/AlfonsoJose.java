@@ -41,7 +41,7 @@ public class AlfonsoJose {
                     // Agregamos el vértice al grafo:
                     graph.add(vertex);
                     // Conectamos el vértice con sus vecinos:
-                    
+
                     // Si no estamos en la primera fila, conectamos el vértice con el de arriba:
                     if (fila > 0) {
                         // El vértice de arriba está en la posición (fila - 1) * values.length + columna:
@@ -58,9 +58,10 @@ public class AlfonsoJose {
                         // Y podemos conectarlos porque ya pasamos por el vértice de la izquierda es decir, este vertice ya existe en el grafo:
                         graph.connect(vertexIzquierdo, vertex);
                     }
-    
+                    // Incrementamos el contador de columna:
                     columna++;
                 }
+                // Incrementamos el contador de fila:
                 fila++;
             }
         } catch (IOException e) {

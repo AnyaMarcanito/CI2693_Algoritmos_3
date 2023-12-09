@@ -45,4 +45,9 @@ class Vertex<T> {
     public int getOutwardDegree() {
         return outwardDegree;
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{value=" + value + ", height=" + height + "}";
+    }
 }

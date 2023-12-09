@@ -27,11 +27,11 @@ public class AlfonsoJose {
             // Iteramos sobre cada línea del archivo:
             while ((line = reader.readLine()) != null) {
                 // Separamos los valores de la línea por espacios:
-                if (columna == 0) {
+                if (fila == 0) {
                     String[] values = line.trim().split(" ");
-                    fila = values.length();
+                    columna = values.length;
                 }
-                columna++;
+                fila++;
             }
 
                 

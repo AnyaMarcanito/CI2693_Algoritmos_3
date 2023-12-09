@@ -7,12 +7,15 @@ public class main {
         Graph<String> graph = new AdjacencyListGraph<>();
 
         // Agregar vértices al grafo
-        System.out.println(graph.add("A"));
         System.out.println(graph.add("B"));
+        System.out.println(graph.add("A"));
         System.out.println(graph.add("C"));
         System.out.println(graph.add("D"));
         System.out.println(graph.add("E"));
         System.out.println(graph.add("A"));
+        // Obtener todos los vértices del grafo
+        List<String> allVertices = graph.getAllVertices();
+        System.out.println("Todos los vértices: " + allVertices);
         System.out.println("----------------------------------------------------------------");
 
         // Conectar vértices en el grafo
@@ -63,7 +66,7 @@ public class main {
         System.out.println("----------------------------------------------------------------");
 
         // Obtener todos los vértices del grafo
-        List<String> allVertices = graph.getAllVertices();
+        allVertices = graph.getAllVertices();
         System.out.println("Todos los vértices: " + allVertices);
 
         System.out.println("----------------------------------------------------------------");

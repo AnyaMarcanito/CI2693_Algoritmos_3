@@ -46,6 +46,14 @@ class Vertex<T> {
         return outwardDegree;
     }
 
+    public void upInwardDegree() {
+        this.inwardDegree = inwardDegree + 1;
+    }
+
+    public void upOutwardDegree() {
+        this.outwardDegree = outwardDegree + 1;
+    }
+
     @Override
     public String toString() {
         return "Vertex{value=" + value + ", height=" + height + "}";

@@ -115,14 +115,16 @@ public class codigoAdicional {
                 graph.add(representante);
                 //Se recorren todos los vertices de la componente.
                 for (Vertex<Integer> vertex : component) {
-                    //Se recorren todos los adyacentes del vertice vertex.
-                    for (Vertex<Integer> vecino : graph.getOutwardEdges(vertex)) {
-                        //Si el vecino no pertenece a la componente entonces se conecta al representante.
-                        if (!component.contains(vecino)) {
-                            //Se conecta el representante con el vecino.
-                            graph.connect(representante, vecino);
-                            //Se aumenta el grado de salida del representante.
-                            representante.upOutwardDegree();
+                    if (!vertex.equals(representante)) {
+                        //Se recorren todos los adyacentes del vertice vertex.
+                        for (Vertex<Integer> vecino : graph.getOutwardEdges(vertex)) {
+                            //Si el vecino no pertenece a la componente entonces se conecta al representante.
+                            if (!component.contains(vecino)) {
+                                //Se conecta el representante con el vecino.
+                                graph.connect(representante, vecino);
+                                //Se aumenta el grado de salida del representante.
+                                representante.upOutwardDegree();
+                            }
                         }
                     }
                     //Se elimina el vertice vertex del grafo.

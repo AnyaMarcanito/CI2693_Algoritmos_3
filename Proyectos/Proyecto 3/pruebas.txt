@@ -1,0 +1,265 @@
+50
+Vertex{value=-4, height=4}
+Inward edges: 
+Outward edges: 
+Vertex{value=-3, height=0}
+Vertex{value=-5, height=0}
+Vertex{value=-3, height=0}
+
+Vertex{value=1, height=3}
+Inward edges: 
+Outward edges: 
+Vertex{value=18, height=0}
+Vertex{value=0, height=0}
+
+Vertex{value=-2, height=0}
+Inward edges: 
+Vertex{value=-3, height=4}
+Outward edges: 
+
+Vertex{value=-2, height=0}
+Inward edges: 
+Vertex{value=-1, height=6}
+Outward edges: 
+
+Vertex{value=36, height=0}
+Inward edges: 
+Vertex{value=1, height=3}
+Outward edges: 
+
+Vertex{value=18, height=1}
+Inward edges: 
+Outward edges: 
+
+Vertex{value=-1, height=0}
+Inward edges: 
+Vertex{value=-2, height=4}
+Outward edges: 
+
+Vertex{value=36, height=1}
+Inward edges: 
+Outward edges: 
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-2, height=4}
+Outward edges: 
+
+Vertex{value=-3, height=4}
+Inward edges: 
+Outward edges: 
+Vertex{value=-2, height=0}
+Vertex{value=-4, height=0}
+Vertex{value=-2, height=0}
+
+Vertex{value=-2, height=2}
+Inward edges: 
+Outward edges: 
+Vertex{value=-3, height=0}
+
+Vertex{value=-5, height=0}
+Inward edges: 
+Vertex{value=-4, height=4}
+Outward edges: 
+
+Vertex{value=-3, height=1}
+Inward edges: 
+Outward edges: 
+
+Vertex{value=-1, height=0}
+Inward edges: 
+Vertex{value=0, height=3}
+Outward edges: 
+
+Vertex{value=-5, height=0}
+Inward edges: 
+Vertex{value=-4, height=4}
+Outward edges: 
+
+Vertex{value=1, height=0}
+Inward edges: 
+Vertex{value=2, height=7}
+Outward edges: 
+
+Vertex{value=0, height=0}
+Inward edges: 
+Vertex{value=1, height=3}
+Outward edges: 
+
+Vertex{value=-2, height=0}
+Inward edges: 
+Vertex{value=-3, height=2}
+Outward edges: 
+
+Vertex{value=18, height=0}
+Inward edges: 
+Vertex{value=1, height=3}
+Outward edges: 
+
+Vertex{value=-1, height=0}
+Inward edges: 
+Vertex{value=-2, height=4}
+Outward edges: 
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-2, height=4}
+Outward edges: 
+
+Vertex{value=18, height=0}
+Inward edges: 
+Vertex{value=-1, height=3}
+Outward edges: 
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-4, height=4}
+Outward edges: 
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-4, height=4}
+Outward edges: 
+
+Vertex{value=2, height=7}
+Inward edges: 
+Outward edges: 
+Vertex{value=1, height=0}
+Vertex{value=1, height=0}
+
+Vertex{value=36, height=0}
+Inward edges: 
+Vertex{value=-1, height=3}
+Outward edges: 
+
+Vertex{value=0, height=3}
+Inward edges: 
+Outward edges: 
+Vertex{value=1, height=0}
+Vertex{value=-1, height=0}
+
+Vertex{value=-4, height=4}
+Inward edges: 
+Outward edges: 
+Vertex{value=-5, height=0}
+Vertex{value=-3, height=0}
+Vertex{value=-3, height=0}
+
+Vertex{value=1, height=3}
+Inward edges: 
+Outward edges: 
+Vertex{value=36, height=0}
+Vertex{value=18, height=0}
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-2, height=2}
+Outward edges: 
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-4, height=4}
+Outward edges: 
+
+Vertex{value=-1, height=3}
+Inward edges: 
+Outward edges: 
+Vertex{value=0, height=0}
+Vertex{value=18, height=0}
+
+Vertex{value=1, height=0}
+Inward edges: 
+Vertex{value=0, height=3}
+Outward edges: 
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-4, height=4}
+Outward edges: 
+
+Vertex{value=-4, height=0}
+Inward edges: 
+Vertex{value=-3, height=4}
+Outward edges: 
+
+Vertex{value=-3, height=2}
+Inward edges: 
+Outward edges: 
+Vertex{value=-2, height=0}
+
+Vertex{value=-2, height=0}
+Inward edges: 
+Vertex{value=-1, height=3}
+Outward edges: 
+
+Vertex{value=1, height=0}
+Inward edges: 
+Vertex{value=2, height=7}
+Outward edges: 
+
+Vertex{value=-1, height=3}
+Inward edges: 
+Outward edges: 
+Vertex{value=36, height=0}
+Vertex{value=18, height=0}
+Vertex{value=-2, height=0}
+
+Vertex{value=18, height=0}
+Inward edges: 
+Vertex{value=1, height=3}
+Outward edges: 
+
+Vertex{value=-2, height=0}
+Inward edges: 
+Vertex{value=-1, height=6}
+Outward edges: 
+
+Vertex{value=-2, height=0}
+Inward edges: 
+Vertex{value=-3, height=4}
+Outward edges: 
+
+Vertex{value=36, height=0}
+Inward edges: 
+Vertex{value=-1, height=6}
+Outward edges: 
+
+Vertex{value=18, height=0}
+Inward edges: 
+Vertex{value=-1, height=3}
+Outward edges: 
+
+Vertex{value=-3, height=0}
+Inward edges: 
+Vertex{value=-2, height=4}
+Outward edges: 
+
+Vertex{value=-5, height=2}
+Inward edges: 
+Outward edges: 
+
+Vertex{value=0, height=0}
+Inward edges: 
+Vertex{value=-1, height=3}
+Outward edges: 
+
+Vertex{value=-2, height=4}
+Inward edges: 
+Outward edges: 
+Vertex{value=-3, height=0}
+Vertex{value=-3, height=0}
+
+Vertex{value=-2, height=4}
+Inward edges: 
+Outward edges: 
+Vertex{value=-3, height=0}
+Vertex{value=-1, height=0}
+Vertex{value=-1, height=0}
+
+Vertex{value=-1, height=6}
+Inward edges: 
+Outward edges: 
+Vertex{value=-2, height=0}
+Vertex{value=36, height=0}
+Vertex{value=-2, height=0}
+

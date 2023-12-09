@@ -502,3 +502,29 @@ public class AlfonsoJose {
     private static 
     
 }
+int contador = 0;
+for (Vertex<Integer> torre: Lista fachera ordenada topologicamente de menor a mayor) {
+            if (torre.getInwardDegree() != 0) {
+                derramado(torre, torre, graph)
+                if (!torre.isSpills) {
+                    int agua = INFINITO;
+                    for (Vertex predecesor : graph.getInwardEdges(torre) {
+                         if (agua < predecesor.getHeight()) {
+                               agua = predecesor.getHeight();
+                         }
+                    }
+                    contador = contador + (agua - torre.getHeight());
+                    torre.setHeight(agua);
+               }
+           }
+        }
+
+public static void derramado(Vertex torre1, Vertex torre2, Graph graph) {
+    if (torre1.isSpills) {
+        torre2.setSpills(true);
+        return;
+    }
+    for (Vertex sucesor : graph.getOutwardEdges(torre1) {
+        derramado(sucesor, torre2, graph)
+    }
+} 

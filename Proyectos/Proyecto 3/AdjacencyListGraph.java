@@ -1,149 +1,196 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-/**
- * Interfaz GraphV2: modificación de la interfaz Graph
- * en la que se agrega el método getPeso, se modifica
- * el método connect para almacene un peso junto con el 
- * arco (from, to) y se agrega el uso de la clase 
- * ArcosConPesos como tipo de dato para almacenar los
- * arcos con sus respectivos pesos. Asimismo, se modifica 
- * el método getOutwardEdges para que retorne una lista 
- * de objetos de tipo ArcosConPesos.
- * 
- * NOTA: Solo fueron adaptados los metodos de la interfaz 
- * Graph que serian necesarios para la implementacion de
- * la solucion al problema planteado para este laboratorio.
- */
-interface GraphV2<T> {
+interface Graph<T> {
     boolean add(T vertex);
-    boolean connect(T from, T to, double peso);
+    boolean connect(T from, T to);
+    boolean disconnect(T from, T to);
     boolean contains(T vertex);
-    List<ArcosConPesos<T>> getOutwardEdges(T from);
+    List<T> getInwardEdges(T to);
+    List<T> getOutwardEdges(T from);
+    List<T> getVerticesConnectedTo(T vertex);
     List<T> getAllVertices();
-    Double getPeso(T from, T to);
-}
-/**
- * Clase ArcosConPesos: clase que almacena un arco
- * junto con su peso, y que implementa los metodos getVertex()
- * y getPeso() para tener acceso a los atributos de la clase.
- */
-
-class ArcosConPesos<T> {
-    private T vertex;
-    private double peso;
-
-    // Método Constructor
-    public ArcosConPesos(T vertex, double peso) {
-        this.vertex = vertex;
-        this.peso = peso;
-    }
-
-    // Métodos get para acceder al vertice del arco
-    public T getVertex() {
-        return vertex;
-    }
-
-    // Métodos get para acceder al peso del arco
-    public double getPeso() {
-        return peso;
-    }
-
-    @Override
-    public String toString() {
-        return vertex + " " + peso;
-    }
+    boolean remove(T vertex);
+    int size();
+    Graph<T> subgraph(Collection<T> vertices);
 }
 
-/**
- * Clase AdjacencyListGraph: implementacion de la interfaz
- * GraphV2 que utiliza una lista de adyacencia para almacenar
- * los vertices y sus arcos con pesos.
- */
-class AdjacencyListGraph<T> implements GraphV2<T> {
-    private Map<T, List<ArcosConPesos<T>>> adjacencyMap;
+class AdjacencyListGraph<T> implements Graph<T> {
+    private Map<T, List<T>> adjacencyMap;
 
-    // Método Constructor
+    //Metodo Constructor
     public AdjacencyListGraph() {
         adjacencyMap = new HashMap<>();
     }
 
-    // Método add
+    //Metodo add
     public boolean add(T vertex) {
-        // Si el vertice no existe, se agrega a la lista de adyacencia
+        //Verificamos si el vertice que queremos agregar ya pertenece al HashMap.
         if (!contains(vertex)) {
-            // Se crea una lista vacia para almacenar los arcos del vertice
+            //Si no pertenece es agregado al HashMap y se retorna true.
             adjacencyMap.put(vertex, new ArrayList<>());
-            // Se retorna true para indicar que el vertice fue agregado
             return true;
         }
-        // Si el vertice ya existe, se retorna false
+        //Si pertenece se retorna false.
         return false;
     }
 
-    // Método connect
-    public boolean connect(T from, T to, double peso) {
-        // Revisamos que ambos vertices existan en la lista de adyacencia
+    //Metodo Connect
+    public boolean connect(T from, T to) {
+        //Verificamos si los vertices from y to pertenecen al HashMap.
         if (contains(from) && contains(to)) {
-            // De ser asi, obtenemos la lista de arcos del vertice from
-            List<ArcosConPesos<T>> successors = adjacencyMap.get(from);
-            // Revisamos que el arco (from, to) no exista
-            for (ArcosConPesos<T> pair : successors) {
-                if (pair.getVertex().equals(to)) {
-                    return false; // La arista ya existe
-                }
+            /**Buscamos la lista de los sucesores del vertice from usando el metodo 
+             * .get() del HashMap.*/
+            List<T> sucesores = adjacencyMap.get(from);
+            //Verificamos los sucesores para ver si el arco from-to ya existe.
+            if (!sucesores.contains(to)) {
+                //Si no existe lo agregamos usando .add
+                sucesores.add(to);
+                return true;
             }
-            // Si el arco no existe, lo agregamos a la lista de arcos del vertice from.
-            successors.add(new ArcosConPesos<>(to, peso));
-            // Retornamos true para indicar que el arco fue agregado exitosamente.
-            return true;
         }
-        // Si alguno de los vertices no existe, retornamos false.
+        /**Si alguno de los vertices (from o to) no pertenecen al HashMap, o
+         * el arco from-to ya existe entonces se retorna false.*/
         return false;
     }
 
-    // Método contains
-    public boolean contains(T vertex) {
-        // Revisamos si el vertice existe en la lista de adyacencia y retornamos el resultado.
-        return adjacencyMap.containsKey(vertex);
+    //Metodo Disconnect
+    public boolean disconnect(T from, T to) {
+        //Verificamos si los vertices from y to pertenecen al HashMap.
+        if (contains(from) && contains(to)) {
+            /**Buscamos la lista de los sucesores del vertice from usando el metodo
+             * .get() del HashMap.*/
+            List<T> sucesores = adjacencyMap.get(from);
+            /**Usamos el metodo .remove() de los ArrayList para eliminar el arco from-to.
+             * Esta llamada devuelve true si el elemento se encontraba en la lista y se 
+             * eliminó exitosamente, y devuelve false si el elemento no se encontraba en
+             *  la lista*/
+            return sucesores.remove(to);
+        }
+        return false;
     }
 
-    // Método getOutwardEdges
-    public List<ArcosConPesos<T>> getOutwardEdges(T from) {
-        // Revisamos si el vertice existe en la lista de adyacencia
-        if (contains(from)) {
-            // Si existe, retornamos la lista de arcos del vertice from
-            List<ArcosConPesos<T>> lista = adjacencyMap.get(from);
-            return lista;
+    //Metodo Contains
+    public boolean contains(T vertex) {
+        /**Usamos el método .containsKey() propio de la clase HashMap para verificar si 
+         * la clave vertex está presente en el mapa. Si lo esta retorna true, si no
+         * retorna false.*/
+        boolean x = adjacencyMap.containsKey(vertex);
+        return x;
+    }
+
+    //Metodo GetInwardEdges
+    public List<T> getInwardEdges(T to) {
+        /**Creamos una lista nueva para almacenar los vértices que tienen arcos 
+         * hacia el vertice to.*/
+        List<T> predecesores = new ArrayList<>();
+        /**Usamos el metodo .keyset() de la clase HashMap para iterar sobre todos los 
+         * vertices del mapa.*/
+        for (T vertex : adjacencyMap.keySet()) {
+            /**Buscamos la lista de los sucesores del vertice vertex usando el metodo 
+             * .get() del HashMap.*/
+            List<T> sucesores = adjacencyMap.get(vertex);
+            /**Usamos el metodo .contains() de la clase ArrayList para verificar si la 
+             * lista de sucesores contiene al vertice to.*/
+            if (sucesores.contains(to)) {
+                /**Si es asi, entonces vertex es un predecesor de to, por lo que lo 
+                 * agregamos a la lista predecesores.*/
+                predecesores.add(vertex);
+            }
         }
-        // Si el vertice no existe, retornamos una lista vacia
+        return predecesores;
+    }
+
+    //Metodo GetOutwardEdges
+    public List<T> getOutwardEdges(T from) {
+        //Usamos contains() para verificar que el vertice from pertenezca al HashMap.
+        if (contains(from)) {
+            /**Si pertenece, usamos el metodo .get() de la clase HashMap para retornar
+             * la lista de sucesores del vertice from.*/
+            return adjacencyMap.get(from);
+        }
+        //Si vertex no pertenece al HashMap se retorna un ArrayList vacio.
         return new ArrayList<>();
     }
 
-    // Método getAllVertices
+    //Metodo GetVerticesConnectedTo
+    public List<T> getVerticesConnectedTo(T vertex) {
+        //Usamos contains() para verificar que el vertice vertex pertenezca al HashMap.
+        if (contains(vertex)) {
+            /**Creamos un conjunto nuevo para almacenar los vértices que estan conectados
+             * al vertice vertex e introducimos los sucesores*/
+            Set<T> adjacentVertex = new HashSet<>(getOutwardEdges(vertex));
+            //Se agregan los predecesores.
+            adjacentVertex.addAll(getInwardEdges(vertex));
+            //Se retorna el conjunto como lista.
+            return new ArrayList<>(adjacentVertex);
+        }
+        //Si vertex no pertenece al HashMap se retorna un ArrayList vacio.
+        return new ArrayList<>();
+    }
+
+    //Metodo GetAllVertices
     public List<T> getAllVertices() {
-        // Retornamos una lista con todos los vertices de la lista de adyacencia
+        /**Usamos el metodo .keyset() de la clase HashMap para devolver un ArrayList 
+         * con todos los elementos dentro del HashMap */
         return new ArrayList<>(adjacencyMap.keySet());
     }
 
-    // Método getPeso
-    public Double getPeso(T from, T to) {
-        // Revisamos que ambos vertices existan en la lista de adyacencia
-        if (contains(from) && contains(to)) {
-            // De ser asi, obtenemos la lista de arcos del vertice from
-            List<ArcosConPesos<T>> successors = adjacencyMap.get(from);
-            for (ArcosConPesos<T> pair : successors) {
-                // Revisamos si el arco (from, to) existe
-                if (pair.getVertex().equals(to)) {
-                    // Si existe, retornamos el peso del arco
-                    return pair.getPeso();
+    //Metodo Remove
+    public boolean remove(T vertex) {
+        //Usamos contains() para verificar que el vertice vertex pertenezca al HashMap.
+        if (contains(vertex)) {
+            /**Si el vertice vertex pertenece, usamos el metodo .remove() de la clase
+             * HashMap para eliminarlo.*/
+            adjacencyMap.remove(vertex);
+            /**Usamos el metodo .values() de la clase HashMap para iterar sobre todos
+             * los valores del HashMap.*/
+            for (List<T> sucesores : adjacencyMap.values()) {
+                /**Usamos el método .remove() en cada lista de sucesores para eliminar 
+                 * el vértice vertex de todas las listas de sucesores.*/
+                sucesores.remove(vertex);
+            }
+            return true;
+        }
+        //Si el vertice vertex no pertenece se retorna false.
+        return false;
+    }
+
+    //Metodo Size
+    public int size() {
+        //Usamos el metodo .size() de la clase HashMap.
+        return adjacencyMap.size();
+    }
+
+    //Metodo Subgraph
+    public Graph<T> subgraph(Collection<T> vertices) {
+        //Creamos un nuevo objeto tipo Graph<T>.
+        Graph<T> subgraph = new AdjacencyListGraph<>();
+        //Iteramos sobre la collection de vertices tipo T.
+        for (T vertex : vertices) {
+            //Usamos contains para verificar si el vertice vertex pertenece al grafo original.
+            if (contains(vertex)) {
+                //Si pertenece agregamos el vertice vertex a los vertices del subgrafo.
+                subgraph.add(vertex);
+                //Usamos el metodo getOutwardEdges para conseguir los sucesores de vertex.
+                List<T> sucesores = getOutwardEdges(vertex);
+                //Iteramos sobre cada sucesor de vertex.
+                for (T sucesor : sucesores) {
+                    //Verificamos si la collection vertices contiene a sucesor.
+                    if (vertices.contains(sucesor)) {
+                        //Si el sucesor pertenece, lo agregamos al subgrafo y conectamos.
+                        subgraph.add(sucesor);
+                        subgraph.connect(vertex, sucesor);
+                    }
                 }
             }
         }
-        // Si alguno de los vertices no existe o el arco no existe retornamos null
-        return null;
+        return subgraph;
     }
-}
 
+}

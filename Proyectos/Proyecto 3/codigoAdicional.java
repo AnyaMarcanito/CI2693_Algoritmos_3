@@ -122,8 +122,15 @@ public class codigoAdicional {
                         if (!component.contains(vecino)) {
                             //Se conecta el representante con el vecino.
                             graph.connect(representante, vecino);
-                            //Se aumenta el grado de salida del representante.
-                            representante.upOutwardDegree();
+                        }
+                    }
+                    for (Vertex<Integer> vecino : graph.getInwardEdges(vertex)) {
+                        //Si el vecino no pertenece a la componente entonces se conecta al representante.
+                        if (!component.contains(vecino)) {
+                            //Se conecta el representante con el vecino.
+                            graph.connect(representante, vecino);
+                            //Se aumenta el grado de entrada del representante.
+                            representante.upInwardDegree();
                         }
                     }
                     //Se elimina el vertice vertex del grafo.

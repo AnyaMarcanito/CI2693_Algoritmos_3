@@ -8,18 +8,18 @@ import java.util.Map;
 public class AlfonsoJose {
     public static void main(String[] args) {
         String fileName = "atlantis.txt";
-        Graph<Vertex<Integer>> graph = readMatrixFromFile(fileName);
+        int[][] matrix= readMatrixFromFile(fileName);
         
     }
     
     private static int[][] readMatrixFromFile(String fileName) {    
         // Leemos el archivo y agregamos los vértices al grafo:
+        int fila = 0;
+        int columna = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             // Leemos la primera línea del archivo:
             String line;
             // Definimos contadores para saber el número de filas y columnas de la matriz de entrada:
-            int fila = 0;
-            int columna = 0;
             // Iteramos sobre cada línea del archivo:
             while ((line = reader.readLine()) != null) {
                 // Leemos, solo la primera línea, por entradas:
@@ -37,10 +37,10 @@ public class AlfonsoJose {
             // Volvemos a iterar, ahora si, sobre todas los valores del archivo.
             // Colocamos un iterador "i" para controlar las filas.
             int i = 0;
-            while ((line = reader.readLine() != null) {
+            while ((line = reader.readLine()) != null){
                 // Colocamos un iterador "j" para controlar las columnas.
                 int j = 0;
-                String values = line.trim().split(" ");
+                String[] values = line.trim().split(" ");
                 // Iteramos sobre cada valor de la línea:
                 for (String value : values) {
                     // Convertimos el valor a entero:
@@ -56,7 +56,6 @@ public class AlfonsoJose {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    
         return matriz;
     }
     

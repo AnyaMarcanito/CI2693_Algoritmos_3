@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,11 +13,22 @@ public class AlfonsoJose {
         String fileName = "atlantis.txt";
         int[][] matrix= readMatrixFromFile(fileName);
         Graph<Vertex<Integer>> graph = createGraph(matrix);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
         System.out.println(graph.size());
-        printGraph(graph);
+        for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            System.out.println("Valor: " + vertex.getValue() + " , Altura: " + vertex.getHeight());
+            System.out.println(" ");
+        }
+        //printGraph(graph);
         List<List<Vertex<Integer>>> componentes = calculoDeComponentesFuertementeConexas(graph);
         generateGraphReducido(graph, componentes);
         OrdenTopologico(graph);
+        propagacionAgua(graph);
                                
     }
     
@@ -93,6 +105,7 @@ public class AlfonsoJose {
             for (int j = 0; j < m; j++) {
                 // Creamos un valor unico para el vertice del grafo
                 int k = valueK(i, j, n, m);
+                System.out.println(k);
                 // Creamos el vertices a añadir al grafo.
                 Vertex<Integer> torre = new Vertex<Integer>(k);
                 // Colocamos su altura.
@@ -499,32 +512,64 @@ public class AlfonsoJose {
         }
     }
 
-    private static 
+    private static void propagacionAgua(Graph<Vertex<Integer>> graph){
+        //Inicializamos un contador para el agua que se derrama.
+        contador = 0;
+        //Creamos una lista con todos los vertices del grafo:
+        List<Vertex<Integer>> listaVerticesOrdenTopologico = new ArrayList<>();
+        //Recorremos todos los vertices del grafo y los agregamos a la lista.
+        for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            listaVerticesOrdenTopologico.add(vertex);
+        }
+        //Ordenamos la lista de vertices por su atributo f.
+        Collections.sort(listaVerticesOrdenTopologico, new Comparator<Vertex<Integer>>() {
+            @Override
+            public int compare(Vertex<Integer> o1, Vertex<Integer> o2) {
+                return o1.getF() - o2.getF();
+            }
+        }); 
+        //Recorremos la lista de vertices ordenados topologicamente.
+        for (Vertex<Integer> torre: listaVerticesOrdenTopologico){
+            //Si la torre tiene grado de entrada 0, es decir, es un vertice fuente entonces se llama al 
+            //metodo derramado().
+            if (torre.getInwardDegree() != 0){
+                //Se llama al metodo derramado() para la torre actual.
+                derramado(graph, torre, torre);
+                //Si la torre no se derrama
+                if (!torre.isSpills()){
+                    //Asignamos a una variable agua el maximo valor entero
+                    int agua = Integer.MAX_VALUE;
+                    //Recorremos todos los predecesores de la torre.
+                    for (Vertex<Integer> predecesor : graph.getInwardEdges(torre)){
+                        //Si la altura del predecesor es menor que el valor de agua entonces se actualiza el valor de agua.
+                        if (agua < predecesor.getHeight()){
+                            agua = predecesor.getHeight();
+                        }
+                    }
+                    //Se actualiza el valor del contador, siendo este la diferencia entre el agua y la altura de la torre.
+                    contador = contador + (agua - torre.getHeight());
+                    //Se actualiza la altura de la torre.
+                    torre.setHeight(agua);
+                }
+            }
+        }
+        System.out.println("La cantidad de agua necesaria es: " + contador);
+
+    }
+
+    private static void derramado(Graph<Vertex<Integer>> graph, Vertex<Integer> torre1, Vertex<Integer> torre2){
+        //Si la torre1 se derrama entonces se cambia el atributo spills de la torre2 a true.
+        if (torre1.isSpills()) {
+            //Se cambia el atributo spills de la torre2 a true.
+            torre2.setSpills(true);
+            return;
+        }
+        //Si la torre1 no se derrama entonces se recorren todos los sucesores de la torre1.
+        for (Vertex<Integer> sucesor : graph.getOutwardEdges(torre1)) {
+            //Se llama al metodo derramado() para el sucesor actual.
+            derramado(graph, sucesor, torre2);
+        }
+    }
     
 }
-int contador = 0;
-for (Vertex<Integer> torre: Lista fachera ordenada topologicamente de menor a mayor) {
-            if (torre.getInwardDegree() != 0) {
-                derramado(torre, torre, graph)
-                if (!torre.isSpills) {
-                    int agua = INFINITO;
-                    for (Vertex predecesor : graph.getInwardEdges(torre) {
-                         if (agua < predecesor.getHeight()) {
-                               agua = predecesor.getHeight();
-                         }
-                    }
-                    contador = contador + (agua - torre.getHeight());
-                    torre.setHeight(agua);
-               }
-           }
-        }
 
-public static void derramado(Vertex torre1, Vertex torre2, Graph graph) {
-    if (torre1.isSpills) {
-        torre2.setSpills(true);
-        return;
-    }
-    for (Vertex sucesor : graph.getOutwardEdges(torre1) {
-        derramado(sucesor, torre2, graph)
-    }
-} 

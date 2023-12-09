@@ -410,12 +410,14 @@ public class AlfonsoJose {
     }
 
     public static void generateGraphReducido(Graph<Vertex<Integer>> graph, List<List<Vertex<Integer>>> componentes) {
+        //Creamos un valor unico que sera utilizado para los nuevos vertices.
+        int v = graph.size() + 1;
         //Recorremos la lista de componentes fuertemente conexas.
         for (List<Vertex<Integer>> component : componentes) {
             //Si la componente tiene mas de un vertice entonces se crea un vertice representante.
             if (component.size() > 1) {
                 //Se inicializa el vertice representante con el primer vertice de la componente.
-                Vertex<Integer> representante = new Vertex<Integer>(null);
+                Vertex<Integer> representante = new Vertex<Integer>(v);
                 representante.setHeight(component.get(0).getHeight());
                 //Se recorren todos los vertices de la componente.
                 for (Vertex<Integer> vertex : component) {
@@ -441,13 +443,16 @@ public class AlfonsoJose {
                         //Si el vecino no pertenece a la componente entonces se conecta al representante.
                         if (!component.contains(vecino)) {
                             //Se conecta el representante con el vecino.
-                            graph.connect(representante, vecino);
-                            //Se aumenta el grado de entrada del representante.
-                            representante.upInwardDegree();
+                            if (graph.connect(vecino, representante)) {
+                                //Se aumenta el grado de entrada del representante.
+                                representante.upInwardDegree();
+                            }
                         }
                     }
                     //Se elimina el vertice vertex del grafo.
                     graph.remove(vertex);
+                    //Aumentamos el valor del proximo vertice.
+                    v++;
                 }
             }
         }

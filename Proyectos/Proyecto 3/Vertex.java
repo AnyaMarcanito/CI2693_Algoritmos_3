@@ -9,7 +9,6 @@ class Vertex<T> {
         this.value = value;
         this.height = 0;
         this.inwardDegree = 0;
-        this.outwardDegree = 0;
         this.spills = false;
     }
 
@@ -42,16 +41,8 @@ class Vertex<T> {
         return inwardDegree;
     }
 
-    public int getOutwardDegree() {
-        return outwardDegree;
-    }
-
     public void upInwardDegree() {
         this.inwardDegree = inwardDegree + 1;
-    }
-
-    public void upOutwardDegree() {
-        this.outwardDegree = outwardDegree + 1;
     }
 
     @Override

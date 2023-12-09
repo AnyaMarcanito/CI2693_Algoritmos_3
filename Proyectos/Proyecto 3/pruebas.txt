@@ -116,3 +116,5 @@ Valor: -1 , Altura: 6
 -1
 -2
 -3
+
+La cantidad de agua necesaria es: -32

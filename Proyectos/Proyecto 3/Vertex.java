@@ -2,8 +2,8 @@ class Vertex<T> {
     private T value;
     private int height;
     private int inwardDegree;
-    private int outwardDegree;
     private boolean spills;
+    private int f;
 
     public Vertex(T value) {
         this.value = value;
@@ -43,6 +43,14 @@ class Vertex<T> {
 
     public void upInwardDegree() {
         this.inwardDegree = inwardDegree + 1;
+    }
+
+    public int getF() {
+        return f;
+    }
+
+    public void setF(int f) {
+        this.f = f;
     }
 
     @Override

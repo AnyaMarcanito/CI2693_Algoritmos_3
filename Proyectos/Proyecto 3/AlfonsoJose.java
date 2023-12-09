@@ -457,4 +457,25 @@ public class AlfonsoJose {
             }
         }
     }
+    static int contador = 0;
+    public static void OrdenTopologico(Graph<Vertex<Integer>> graph){
+        contador = graph.size();
+        List<Vertex<Integer>> visitados = new ArrayList<>();
+        for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            if(!visitados.contains(vertex)){
+                dfsTopologico(graph, vertex, visitados);
+            }
+        }
+    }
+
+    private static void dfsTopologico(Graph<Vertex<Integer>> graph, Vertex<Integer> vertex, List<Vertex<Integer>> visitados){
+        visitados.add(vertex);
+        for (Vertex<Integer> vecino : graph.getOutwardEdges(vertex)) {
+            if (!visitados.contains(vecino)) {
+                dfsTopologico(graph, vecino, visitados);
+            }
+        }
+        contador = contador -1;
+        vertex.setF(contador);
+    }
 }

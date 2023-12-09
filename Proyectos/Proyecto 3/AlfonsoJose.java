@@ -20,19 +20,23 @@ public class AlfonsoJose {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             // Leemos la primera línea del archivo:
             String line;
-            // Definimos un contador para saber en qué fila estamos:
+            // Definimos contadores para saber el número de filas y columnas de la matriz de entrada:
             int fila = 0;
             int columna = 0;
-            // Creamos una lista para almacenar los vértices en el orden correcto:
             // Iteramos sobre cada línea del archivo:
             while ((line = reader.readLine()) != null) {
-                // Separamos los valores de la línea por espacios:
+                // Leemos, solo la primera línea, por entradas:
                 if (fila == 0) {
+                    // Separamos en un arreglo por espacios en blanco.
                     String[] values = line.trim().split(" ");
+                    // El número de columnas es igual a el número de entradas.
                     columna = values.length;
                 }
+                // Aumentamos el contador de filas cada vez que avanzamos a la siguiente linea.
                 fila++;
             }
+            // Creamos la matriz de alturas de cada torre:
+            int [][] = new int [fila][columna];
 
                 
                 // Definimos un contador para saber en qué columnaumna estamos:

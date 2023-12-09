@@ -12,7 +12,12 @@ public class AlfonsoJose {
         String fileName = "atlantis.txt";
         int[][] matrix= readMatrixFromFile(fileName);
         Graph<Vertex<Integer>> graph = createGraph(matrix);
-        
+        System.out.println(graph.size());
+        printGraph(graph);
+        List<List<Vertex<Integer>>> componentes = calculoDeComponentesFuertementeConexas(graph);
+        generateGraphReducido(graph, componentes);
+        OrdenTopologico(graph);
+                               
     }
     
     private static int[][] readMatrixFromFile(String fileName) {    
@@ -478,4 +483,22 @@ public class AlfonsoJose {
         contador = contador -1;
         vertex.setF(contador);
     }
+
+    private static void printGraph(Graph<Vertex<Integer>> graph) {
+        for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            System.out.println(vertex);
+            System.out.println("Inward edges: ");
+            for (Vertex<Integer> inward : graph.getInwardEdges(vertex)) {
+                System.out.println(inward);
+            }
+            System.out.println("Outward edges: ");
+            for (Vertex<Integer> outward : graph.getOutwardEdges(vertex)) {
+                System.out.println(outward);
+            }
+            System.out.println();
+        }
+    }
+
+    private static 
+    
 }

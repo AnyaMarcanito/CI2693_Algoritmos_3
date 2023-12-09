@@ -22,14 +22,18 @@ public class AlfonsoJose {
             String line;
             // Definimos un contador para saber en qué fila estamos:
             int fila = 0;
+            int columna = 0;
             // Creamos una lista para almacenar los vértices en el orden correcto:
-            List<Vertex<Integer>> verticesList = new ArrayList<>();
             // Iteramos sobre cada línea del archivo:
             while ((line = reader.readLine()) != null) {
                 // Separamos los valores de la línea por espacios:
                 String[] values = line.trim().split(" ");
+                fila = values.length();
+                columna++;
+            }
+
+                
                 // Definimos un contador para saber en qué columnaumna estamos:
-                int columna = 0;
                 // Iteramos sobre cada valor de la línea:
                 for (String value : values) {
                     // Convertimos el valor a entero:

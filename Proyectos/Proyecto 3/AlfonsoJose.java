@@ -1,14 +1,12 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class AlfonsoJose {
     public static void main(String[] args) {
         String fileName = "atlantis.txt";
         int[][] matrix= readMatrixFromFile(fileName);
+        Graph<Vertex<Integer>> graph = createGraph(matrix);
         
     }
     
@@ -86,7 +84,7 @@ public class AlfonsoJose {
                 // Creamos un valor unico para el vertice del grafo
                 int k = valueK(i, j, n, m);
                 // Creamos el vertices a añadir al grafo.
-                Vertex torre = new Vertex(k);
+                Vertex<Integer> torre = new Vertex<Integer>(k);
                 // Colocamos su altura.
                 torre.setHeight(matriz[i][j]);
                 // Si se encuentra en uno de los bordes, contamos que el agua se puede derramar por el.
@@ -101,7 +99,7 @@ public class AlfonsoJose {
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
                         if (torre.getHeight() >= matriz[i][j+1]) {
-                            Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                            Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                             graph.add(torreDerecha);
                             if (graph.connect(torre, torreDerecha)) {
                                 torre.upOutwardDegree();
@@ -112,7 +110,7 @@ public class AlfonsoJose {
                     // Discriminador de caso brode "solo hay una fila".
                     if (n > 1) {
                         if (torre.getHeight() >= matriz[i+1][j]) {
-                            Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                            Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                             graph.add(torreInferior);
                             if (graph.connect(torre, torreInferior)) {
                                 torre.upOutwardDegree();
@@ -124,7 +122,7 @@ public class AlfonsoJose {
                 // Caso general 1, primera fila:
                 if (i == 0 && j > 0 && j != m-1) {
                     if (torre.getHeight() >= matriz[i][j-1]) {
-                        Vertex torreIzquierda = new Vertex(valueK(i, j-1, n, m));
+                        Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
                             torre.upOutwardDegree();
@@ -132,7 +130,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j+1]) {
-                        Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                        Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                         graph.add(torreDerecha);
                         if (graph.connect(torre, torreDerecha)) {
                             torre.upOutwardDegree();
@@ -142,7 +140,7 @@ public class AlfonsoJose {
                     // Discriminador de caso brode "solo hay una fila".
                     if (n > 1) {
                         if (torre.getHeight() >= matriz[i+1][j]) {
-                            Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                            Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                             graph.add(torreInferior);
                             if (graph.connect(torre, torreInferior)) {
                                 torre.upOutwardDegree();
@@ -154,7 +152,7 @@ public class AlfonsoJose {
                 // Caso particular 2, primera fila-ultima columna:
                 if (i == 0 && j == m-1 && m > 1) {
                     if (torre.getHeight() >= matriz[i][j-1]) {
-                        Vertex torreIzquierda = new Vertex(valueK(i, j-1, n, m));
+                        Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
                             torre.upOutwardDegree();
@@ -164,7 +162,7 @@ public class AlfonsoJose {
                     // Discriminador de caso brode "solo hay una fila".
                     if (n > 1) {
                         if (torre.getHeight() >= matriz[i+1][j]) {
-                            Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                            Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                             graph.add(torreInferior);
                             if (graph.connect(torre, torreInferior)) {
                                 torre.upOutwardDegree();
@@ -176,7 +174,7 @@ public class AlfonsoJose {
                 // Caso general 2, primera columna:
                 if (i > 0 && j == 0 && i != n-1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
-                        Vertex torreSuperior = new Vertex(valueK(i-1, j, n, m));
+                        Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
                             torre.upOutwardDegree();
@@ -186,7 +184,7 @@ public class AlfonsoJose {
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
                         if (torre.getHeight() >= matriz[i][j+1]) {
-                            Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                            Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                             graph.add(torreDerecha);
                             if (graph.connect(torre, torreDerecha)) {
                                 torre.upOutwardDegree();
@@ -195,7 +193,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i+1][j]) {
-                        Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                        Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                         graph.add(torreInferior);
                         if (graph.connect(torre, torreInferior)) {
                             torre.upOutwardDegree();
@@ -206,7 +204,7 @@ public class AlfonsoJose {
                 // Caso particular 3, ultima fila-primera columna:
                 if (i == n-1 && j == 0 && n > 1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
-                        Vertex torreSuperior = new Vertex(valueK(i-1, j, n, m));
+                        Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
                             torre.upOutwardDegree();
@@ -216,7 +214,7 @@ public class AlfonsoJose {
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
                         if (torre.getHeight() >= matriz[i][j+1]) {
-                            Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                            Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                             graph.add(torreDerecha);
                             if (graph.connect(torre, torreDerecha)) {
                                 torre.upOutwardDegree();
@@ -230,7 +228,7 @@ public class AlfonsoJose {
                     // Discriminador de caso borde "solo hay una fila"
                     if (n > 1) {
                         if (torre.getHeight() >= matriz[i-1][j]) {
-                            Vertex torreSuperior = new Vertex(valueK(i-1, j, n, m));
+                            Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                             graph.add(torreSuperior);
                             if (graph.connect(torre, torreSuperior)) {
                                 torre.upOutwardDegree();
@@ -239,7 +237,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j-1]) {
-                        Vertex torreIzquierda = new Vertex(valueK(i, j-1, n, m));
+                        Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
                             torre.upOutwardDegree();
@@ -247,7 +245,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j+1]) {
-                        Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                        Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                         graph.add(torreDerecha);
                         if (graph.connect(torre, torreDerecha)) {
                             torre.upOutwardDegree();
@@ -258,7 +256,7 @@ public class AlfonsoJose {
                 // Caso particular 4, ultima posicion:
                 if (i == n-1 && j == m-1 && n > 1 && m > 1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
-                        Vertex torreSuperior = new Vertex(valueK(i-1, j, n, m));
+                        Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
                             torre.upOutwardDegree();
@@ -266,7 +264,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j-1]) {
-                        Vertex torreIzquierda = new Vertex(valueK(i, j-1, n, m));
+                        Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
                             torre.upOutwardDegree();
@@ -277,7 +275,7 @@ public class AlfonsoJose {
                 // Caso general 4, ultima columna:
                 if (i > 0 && j == m-1 && i != n-1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
-                        Vertex torreSuperior = new Vertex(valueK(i-1, j, n, m));
+                        Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
                             torre.upOutwardDegree();
@@ -287,7 +285,7 @@ public class AlfonsoJose {
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
                         if (torre.getHeight() >= matriz[i][j-1]) {
-                            Vertex torreIzquierda = new Vertex(valueK(i, j-1, n, m));
+                            Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                             graph.add(torreIzquierda);
                             if (graph.connect(torre, torreIzquierda)) {
                                 torre.upOutwardDegree();
@@ -296,7 +294,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i+1][j]) {
-                        Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                        Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                         graph.add(torreInferior);
                         if (graph.connect(torre, torreInferior)) {
                             torre.upOutwardDegree();
@@ -307,7 +305,7 @@ public class AlfonsoJose {
                 // Caso general 5, interior de la matriz:
                 if (i > 0 && j > 0 && i < n-1 && j < m-1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
-                        Vertex torreSuperior = new Vertex(valueK(i-1, j, n, m));
+                        Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
                             torre.upOutwardDegree();
@@ -315,7 +313,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j-1]) {
-                        Vertex torreIzquierda = new Vertex(valueK(i, j-1, n, m));
+                        Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
                             torre.upOutwardDegree();
@@ -323,7 +321,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i+1][j]) {
-                        Vertex torreInferior = new Vertex(valueK(i+1, j, n, m));
+                        Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                         graph.add(torreInferior);
                         if (graph.connect(torre, torreInferior)) {
                             torre.upOutwardDegree();
@@ -331,7 +329,7 @@ public class AlfonsoJose {
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j+1]) {
-                        Vertex torreDerecha = new Vertex(valueK(i, j+1, n, m));
+                        Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                         graph.add(torreDerecha);
                         if (graph.connect(torre, torreDerecha)) {
                             torre.upOutwardDegree();
@@ -341,6 +339,7 @@ public class AlfonsoJose {
                 }
             }
         }
+        return graph;
     }
     
    

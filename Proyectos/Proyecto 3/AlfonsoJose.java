@@ -102,7 +102,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                             graph.add(torreDerecha);
                             if (graph.connect(torre, torreDerecha)) {
-                                torre.upOutwardDegree();
                                 torreDerecha.upInwardDegree();
                             }
                         }
@@ -113,7 +112,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                             graph.add(torreInferior);
                             if (graph.connect(torre, torreInferior)) {
-                                torre.upOutwardDegree();
                                 torreInferior.upInwardDegree();
                             }
                         }
@@ -125,7 +123,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
-                            torre.upOutwardDegree();
                             torreIzquierda.upInwardDegree();
                         }
                     }
@@ -133,7 +130,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                         graph.add(torreDerecha);
                         if (graph.connect(torre, torreDerecha)) {
-                            torre.upOutwardDegree();
                             torreDerecha.upInwardDegree();
                         }
                     }
@@ -143,7 +139,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                             graph.add(torreInferior);
                             if (graph.connect(torre, torreInferior)) {
-                                torre.upOutwardDegree();
                                 torreInferior.upInwardDegree();
                             }
                         }
@@ -155,7 +150,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
-                            torre.upOutwardDegree();
                             torreIzquierda.upInwardDegree();
                         }
                     }
@@ -165,7 +159,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                             graph.add(torreInferior);
                             if (graph.connect(torre, torreInferior)) {
-                                torre.upOutwardDegree();
                                 torreInferior.upInwardDegree();
                             }
                         }
@@ -177,7 +170,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
-                            torre.upOutwardDegree();
                             torreSuperior.upInwardDegree();
                         }
                     }
@@ -187,7 +179,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                             graph.add(torreDerecha);
                             if (graph.connect(torre, torreDerecha)) {
-                                torre.upOutwardDegree();
                                 torreDerecha.upInwardDegree();
                             }
                         }
@@ -196,7 +187,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                         graph.add(torreInferior);
                         if (graph.connect(torre, torreInferior)) {
-                            torre.upOutwardDegree();
                             torreInferior.upInwardDegree();
                         }
                     }
@@ -207,7 +197,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
-                            torre.upOutwardDegree();
                             torreSuperior.upInwardDegree();
                         }
                     }
@@ -217,7 +206,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                             graph.add(torreDerecha);
                             if (graph.connect(torre, torreDerecha)) {
-                                torre.upOutwardDegree();
                                 torreDerecha.upInwardDegree();
                             }
                         }
@@ -231,7 +219,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                             graph.add(torreSuperior);
                             if (graph.connect(torre, torreSuperior)) {
-                                torre.upOutwardDegree();
                                 torreSuperior.upInwardDegree();
                             }
                         }
@@ -240,7 +227,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
-                            torre.upOutwardDegree();
                             torreIzquierda.upInwardDegree();
                         }
                     }
@@ -248,7 +234,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                         graph.add(torreDerecha);
                         if (graph.connect(torre, torreDerecha)) {
-                            torre.upOutwardDegree();
                             torreDerecha.upInwardDegree();
                         }
                     }
@@ -259,7 +244,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
-                            torre.upOutwardDegree();
                             torreSuperior.upInwardDegree();
                         }
                     }
@@ -267,7 +251,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
-                            torre.upOutwardDegree();
                             torreIzquierda.upInwardDegree();
                         }
                     }
@@ -278,7 +261,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
-                            torre.upOutwardDegree();
                             torreSuperior.upInwardDegree();
                         }
                     }
@@ -288,7 +270,6 @@ public class AlfonsoJose {
                             Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                             graph.add(torreIzquierda);
                             if (graph.connect(torre, torreIzquierda)) {
-                                torre.upOutwardDegree();
                                 torreIzquierda.upInwardDegree();
                             }
                         }
@@ -297,7 +278,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                         graph.add(torreInferior);
                         if (graph.connect(torre, torreInferior)) {
-                            torre.upOutwardDegree();
                             torreInferior.upInwardDegree();
                         }
                     }
@@ -308,7 +288,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreSuperior = new Vertex<Integer>(valueK(i-1, j, n, m));
                         graph.add(torreSuperior);
                         if (graph.connect(torre, torreSuperior)) {
-                            torre.upOutwardDegree();
                             torreSuperior.upInwardDegree();
                         }
                     }
@@ -316,7 +295,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreIzquierda = new Vertex<Integer>(valueK(i, j-1, n, m));
                         graph.add(torreIzquierda);
                         if (graph.connect(torre, torreIzquierda)) {
-                            torre.upOutwardDegree();
                             torreIzquierda.upInwardDegree();
                         }
                     }
@@ -324,7 +302,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreInferior = new Vertex<Integer>(valueK(i+1, j, n, m));
                         graph.add(torreInferior);
                         if (graph.connect(torre, torreInferior)) {
-                            torre.upOutwardDegree();
                             torreInferior.upInwardDegree();
                         }
                     }
@@ -332,7 +309,6 @@ public class AlfonsoJose {
                         Vertex<Integer> torreDerecha = new Vertex<Integer>(valueK(i, j+1, n, m));
                         graph.add(torreDerecha);
                         if (graph.connect(torre, torreDerecha)) {
-                            torre.upOutwardDegree();
                             torreDerecha.upInwardDegree();
                         }
                     }

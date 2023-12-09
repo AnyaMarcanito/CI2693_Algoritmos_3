@@ -32,9 +32,16 @@ public class AlfonsoJose {
                 // Aumentamos el contador de filas cada vez que avanzamos a la siguiente linea.
                 fila++;
             }
-            // Creamos la matriz de alturas de cada torre:
-            int [][] matriz = new int [fila][columna];
-            // Volvemos a iterar, ahora si, sobre todas los valores del archivo.
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Creamos la matriz de alturas de cada torre:
+        int [][] matriz = new int [fila][columna];
+
+        // Volvemos a iterar, ahora si, sobre todas los valores del archivo.
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
             // Colocamos un iterador "i" para controlar las filas.
             int i = 0;
             while ((line = reader.readLine()) != null){

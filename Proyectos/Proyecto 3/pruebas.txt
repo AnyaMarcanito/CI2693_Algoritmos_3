@@ -98,24 +98,34 @@ Valor: -2 , Altura: 4
  
 Valor: -1 , Altura: 6
  
-Valores de k: 
 0
-10
-20
-30
-40
-50
+180
+360
+540
+720
+900
 1
 18
-21
-31
-41
-51
+361
+541
+721
+901
 2
-12
+182
 36
-32
-42
-52
+542
+722
+902
+
 
 La cantidad de agua necesaria es: -32
+
+if ( i != j) {
+            if (n >= m){
+                return (i*n*m*10)+j;
+            } else {
+                return (n*m*j*10)+i;
+            } 
+        } else {
+            return i * n * m;
+        }

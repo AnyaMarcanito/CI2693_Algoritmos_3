@@ -126,9 +126,9 @@ public class codigoAdicional {
                                 representante.upOutwardDegree();
                             }
                         }
+                        //Se elimina el vertice vertex del grafo.
+                        graph.remove(vertex);
                     }
-                    //Se elimina el vertice vertex del grafo.
-                    graph.remove(vertex);
                 }
             }
         }

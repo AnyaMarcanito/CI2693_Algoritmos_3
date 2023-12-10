@@ -16,17 +16,20 @@ public class AlfonsoJose {
         int[][] matrix= readMatrixFromFile(fileName);
         Graph<Vertex<Integer>> graph = createGraph(matrix);
         List<List<Vertex<Integer>>> componentes = calculoDeComponentesFuertementeConexas(graph);
-        for (List<Vertex<Integer>> component : componentes) {
+        /*for (List<Vertex<Integer>> component : componentes) {
             System.out.println("Componente: ");
             for (Vertex<Integer> vertex : component) {
                 System.out.println(vertex);
             }
             System.out.println();
-        }
+        }*/
         generateGraphReducido(graph, componentes, matrix);
-        System.out.println(graph.size());
+        //System.out.println(graph.size());
         printGraph(graph);
         OrdenTopologico(graph);
+        for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            System.out.println("Vertice " + vertex.getValue() + " tiene f: " + vertex.getF());
+        }
         propagacionAgua(graph);
                                
     }
@@ -89,6 +92,16 @@ public class AlfonsoJose {
         return (i*n*m)+j;
     }
 
+    /**
+     * Genera un grafo dirigido a partir de una matriz.
+     *
+     * @param matriz la matriz de alturas de las torres de la ciudad.
+     * @return el grafo construido a partir de la matriz de alturas, 
+     *         donde las conexiones se establecen entre vertices adyacentes
+     *         en la matriz (arriba, abajo, izquierda, derecha) y siempre
+     *         en direccion de los vertices de mayor altura a los de menor 
+     *         altura.
+     */
     private static Graph<Vertex<Integer>> createGraph(int [][] matriz) {
         // Creamos el grafo de vértices.
         Graph<Vertex<Integer>> graph = new AdjacencyListGraph<>();
@@ -97,37 +110,50 @@ public class AlfonsoJose {
         int m = matriz[0].length;
         // Creamos un mapa para almacenar los vértices existentes por su clave única
         Map<Integer, Vertex<Integer>> vertexMap = new HashMap<>();
-        // Verificamos la existencia de vértices y los creamos si es necesario
+        // Recorremos la matriz de alturas de las torres:
         for (int i = 0; i < n; i++) {
+            // Recorremos las columnas:
             for (int j = 0; j < m; j++) {
+                // Creamos un valor unico para el vertice del grafo
                 int k = valueK(i, j, n, m);
+                // Si el vertice no existe, lo creamos y lo agregamos al grafo.
                 if (!vertexMap.containsKey(k)) {
+                    // Creamos el vertice:
                     Vertex<Integer> torre = new Vertex<Integer>(k);
+                    // Le asignamos la altura de la torre:
                     torre.setHeight(matriz[i][j]);
                     // Si se encuentra en uno de los bordes, contamos que el agua se puede derramar por el.
                     if (i == 0 || i == n-1 || j == 0 || j == m-1) {
                         torre.setSpills(true);
                     }
+                    // Agregamos el vertice al grafo y al mapa de vertices.
                     graph.add(torre);
                     vertexMap.put(k, torre);
                 }
             }
         }
-
+        // Recorremos la matriz de alturas de las torres:
         for (int i = 0; i < n; i++) {
+            // Recorremos las columnas:
             for (int j = 0; j < m; j++) {
-                // Creamos un valor unico para el vertice del grafo
+                // Calculamos el valor unico que identifica al vertice en el que estamos:
                 int k = valueK(i, j, n, m);
+                // Obtenemos el vertice del mapa de vertices:
                 Vertex<Integer> torre = vertexMap.get(k);
                 
-                // Luego, conectamos el vertice a sus vertices adyacentes:
+            // Luego, conectamos el vertice a sus vertices adyacentes:
+
                 // Caso particular 1, primera posicion:
                 if (i == 0 && j == 0) {
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
+                        // Si la torre es mayor o igual a la torre de la derecha, entonces se conectan.
                         if (torre.getHeight() >= matriz[i][j+1]) {
+                            // Obtenemos el vertice de la derecha:
                             Vertex<Integer> torreDerecha = vertexMap.get(valueK(i, j+1, n, m));
+                            // Conectamos el vertice actual con el vertice de la derecha:
                             if (graph.connect(torre, torreDerecha)) {
+                                // Aumentamos el grado de entrada del vertice de la derecha:
                                 torreDerecha.upInwardDegree();
                             }
                         }
@@ -135,9 +161,13 @@ public class AlfonsoJose {
 
                     // Discriminador de caso brode "solo hay una fila".
                     if (n > 1) {
+                        // Si la torre es mayor o igual a la torre de abajo, entonces se conectan.
                         if (torre.getHeight() >= matriz[i+1][j]) {
+                            // Obtenemos el vertice de abajo:
                             Vertex<Integer> torreInferior = vertexMap.get(valueK(i+1, j, n, m));
+                            // Conectamos el vertice actual con el vertice de abajo:
                             if (graph.connect(torre, torreInferior)) {
+                                // Aumentamos el grado de entrada del vertice de abajo:
                                 torreInferior.upInwardDegree();
                             }
                         }
@@ -145,25 +175,33 @@ public class AlfonsoJose {
                 }
                 // Caso general 1, primera fila:
                 if (i == 0 && j > 0 && j != m-1) {
+
                     if (torre.getHeight() >= matriz[i][j-1]) {
+                        // Obtenemos el vertice de la izquierda:
                         Vertex<Integer> torreIzquierda = vertexMap.get(valueK(i, j-1, n, m));
+                        // Conectamos el vertice actual con el vertice de la izquierda:
                         if (graph.connect(torre, torreIzquierda)) {
+                            // Aumentamos el grado de entrada del vertice de la izquierda:
                             torreIzquierda.upInwardDegree();
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j+1]) {
+                        // Obtenemos el vertice de la derecha:
                         Vertex<Integer> torreDerecha = vertexMap.get(valueK(i, j+1, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de la derecha:                        
                         if (graph.connect(torre, torreDerecha)) {
+                            // Aumentamos el grado de entrada del vertice de la derecha:
                             torreDerecha.upInwardDegree();
                         }
                     }
-                    // Discriminador de caso brode "solo hay una fila".
                     if (n > 1) {
+                        // Si la torre es mayor o igual a la torre de abajo, entonces se conectan.
                         if (torre.getHeight() >= matriz[i+1][j]) {
+                            // Obtenemos el vertice de abajo:
                             Vertex<Integer> torreInferior = vertexMap.get(valueK(i+1, j, n, m));
-                            
+                            // Conectamos el vertice actual con el vertice de abajo:
                             if (graph.connect(torre, torreInferior)) {
+                                // Aumentamos el grado de entrada del vertice de abajo:
                                 torreInferior.upInwardDegree();
                             }
                         }
@@ -171,19 +209,24 @@ public class AlfonsoJose {
                 }
                 // Caso particular 2, primera fila-ultima columna:
                 if (i == 0 && j == m-1 && m > 1) {
+
                     if (torre.getHeight() >= matriz[i][j-1]) {
+                        // Obtenemos el vertice de la izquierda:
                         Vertex<Integer> torreIzquierda = vertexMap.get(valueK(i, j-1, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de la izquierda:
                         if (graph.connect(torre, torreIzquierda)) {
+                            // Aumentamos el grado de entrada del vertice de la izquierda:
                             torreIzquierda.upInwardDegree();
                         }
                     }
                     // Discriminador de caso brode "solo hay una fila".
                     if (n > 1) {
                         if (torre.getHeight() >= matriz[i+1][j]) {
+                            // Obtenemos el vertice de abajo:
                             Vertex<Integer> torreInferior = vertexMap.get(valueK(i+1, j, n, m));
-                            
+                            // Conectamos el vertice actual con el vertice de abajo:
                             if (graph.connect(torre, torreInferior)) {
+                                // Aumentamos el grado de entrada del vertice de abajo:
                                 torreInferior.upInwardDegree();
                             }
                         }
@@ -192,26 +235,32 @@ public class AlfonsoJose {
                 // Caso general 2, primera columna:
                 if (i > 0 && j == 0 && i != n-1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
+                        // Obtenemos el vertice de arriba:
                         Vertex<Integer> torreSuperior = vertexMap.get(valueK(i-1, j, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de arriba:
                         if (graph.connect(torre, torreSuperior)) {
+                            // Aumentamos el grado de entrada del vertice de arriba:
                             torreSuperior.upInwardDegree();
                         }
                     }
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
                         if (torre.getHeight() >= matriz[i][j+1]) {
+                            // Obtenemos el vertice de la derecha:
                             Vertex<Integer> torreDerecha = vertexMap.get(valueK(i, j+1, n, m));
-                            
+                            // Conectamos el vertice actual con el vertice de la derecha:
                             if (graph.connect(torre, torreDerecha)) {
+                                // Aumentamos el grado de entrada del vertice de la derecha:
                                 torreDerecha.upInwardDegree();
                             }
                         }
                     }
                     if (torre.getHeight() >= matriz[i+1][j]) {
+                        // Obtenemos el vertice de abajo:
                         Vertex<Integer> torreInferior = vertexMap.get(valueK(i+1, j, n, m));
-                    
+                        // Conectamos el vertice actual con el vertice de abajo:
                         if (graph.connect(torre, torreInferior)) {
+                            // Aumentamos el grado de entrada del vertice de abajo:
                             torreInferior.upInwardDegree();
                         }
                     }
@@ -219,18 +268,22 @@ public class AlfonsoJose {
                 // Caso particular 3, ultima fila-primera columna:
                 if (i == n-1 && j == 0 && n > 1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
+                        // Obtenemos el vertice de arriba:
                         Vertex<Integer> torreSuperior = vertexMap.get(valueK(i-1, j, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de arriba:
                         if (graph.connect(torre, torreSuperior)) {
+                            // Aumentamos el grado de entrada del vertice de arriba:
                             torreSuperior.upInwardDegree();
                         }
                     }
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
                         if (torre.getHeight() >= matriz[i][j+1]) {
+                            // Obtenemos el vertice de la derecha:
                             Vertex<Integer> torreDerecha = vertexMap.get(valueK(i, j+1, n, m));
-                            
+                            // Conectamos el vertice actual con el vertice de la derecha:
                             if (graph.connect(torre, torreDerecha)) {
+                                // Aumentamos el grado de entrada del vertice de la derecha:
                                 torreDerecha.upInwardDegree();
                             }
                         }
@@ -241,24 +294,30 @@ public class AlfonsoJose {
                     // Discriminador de caso borde "solo hay una fila"
                     if (n > 1) {
                         if (torre.getHeight() >= matriz[i-1][j]) {
+                            // Obtenemos el vertice de arriba:
                             Vertex<Integer> torreSuperior = vertexMap.get(valueK(i-1, j, n, m));
-                            
+                            // Conectamos el vertice actual con el vertice de arriba:                            
                             if (graph.connect(torre, torreSuperior)) {
+                                // Aumentamos el grado de entrada del vertice de arriba:
                                 torreSuperior.upInwardDegree();
                             }
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j-1]) {
+                        // Obtenemos el vertice de la izquierda:
                         Vertex<Integer> torreIzquierda = vertexMap.get(valueK(i, j-1, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de la izquierda:
                         if (graph.connect(torre, torreIzquierda)) {
+                            // Aumentamos el grado de entrada del vertice de la izquierda:
                             torreIzquierda.upInwardDegree();
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j+1]) {
+                        // Obtenemos el vertice de la derecha:
                         Vertex<Integer> torreDerecha = vertexMap.get(valueK(i, j+1, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de la derecha:
                         if (graph.connect(torre, torreDerecha)) {
+                            // Aumentamos el grado de entrada del vertice de la derecha:
                             torreDerecha.upInwardDegree();
                         }
                     }
@@ -266,16 +325,20 @@ public class AlfonsoJose {
                 // Caso particular 4, ultima posicion:
                 if (i == n-1 && j == m-1 && n > 1 && m > 1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
+                        // Obtenemos el vertice de arriba:
                         Vertex<Integer> torreSuperior = vertexMap.get(valueK(i-1, j, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de arriba:
                         if (graph.connect(torre, torreSuperior)) {
+                            // Aumentamos el grado de entrada del vertice de arriba:
                             torreSuperior.upInwardDegree();
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j-1]) {
+                        // Obtenemos el vertice de la izquierda:
                         Vertex<Integer> torreIzquierda = vertexMap.get(valueK(i, j-1, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de la izquierda:
                         if (graph.connect(torre, torreIzquierda)) {
+                            // Aumentamos el grado de entrada del vertice de la izquierda:
                             torreIzquierda.upInwardDegree();
                         }
                     }
@@ -283,26 +346,32 @@ public class AlfonsoJose {
                 // Caso general 4, ultima columna:
                 if (i > 0 && j == m-1 && i != n-1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
+                        // Obtenemos el vertice de arriba:
                         Vertex<Integer> torreSuperior = vertexMap.get(valueK(i-1, j, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de arriba:
                         if (graph.connect(torre, torreSuperior)) {
+                            // Aumentamos el grado de entrada del vertice de arriba:
                             torreSuperior.upInwardDegree();
                         }
                     }
                     // Discriminador de caso borde "solo hay una columna".
                     if (m > 1) {
                         if (torre.getHeight() >= matriz[i][j-1]) {
+                            // Obtenemos el vertice de la izquierda:
                             Vertex<Integer> torreIzquierda = vertexMap.get(valueK(i, j-1, n, m));
-                            
+                            // Conectamos el vertice actual con el vertice de la izquierda:
                             if (graph.connect(torre, torreIzquierda)) {
+                                // Aumentamos el grado de entrada del vertice de la izquierda:
                                 torreIzquierda.upInwardDegree();
                             }
                         }
                     }
                     if (torre.getHeight() >= matriz[i+1][j]) {
+                        // Obtenemos el vertice de abajo:
                         Vertex<Integer> torreInferior = vertexMap.get(valueK(i+1, j, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de abajo:
                         if (graph.connect(torre, torreInferior)) {
+                            // Aumentamos el grado de entrada del vertice de abajo:
                             torreInferior.upInwardDegree();
                         }
                     }
@@ -310,29 +379,38 @@ public class AlfonsoJose {
                 // Caso general 5, interior de la matriz:
                 if (i > 0 && j > 0 && i < n-1 && j < m-1) {
                     if (torre.getHeight() >= matriz[i-1][j]) {
+                        // Obtenemos el vertice de arriba:
                         Vertex<Integer> torreSuperior = vertexMap.get(valueK(i-1, j, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de arriba:
                         if (graph.connect(torre, torreSuperior)) {
+                            // Aumentamos el grado de entrada del vertice de arriba:
                             torreSuperior.upInwardDegree();
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j-1]) {
+                        // Obtenemos el vertice de la izquierda:
                         Vertex<Integer> torreIzquierda = vertexMap.get(valueK(i, j-1, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de la izquierda:
                         if (graph.connect(torre, torreIzquierda)) {
+                            // Aumentamos el grado de entrada del vertice de la izquierda:
                             torreIzquierda.upInwardDegree();
                         }
                     }
                     if (torre.getHeight() >= matriz[i+1][j]) {
+                        // Obtenemos el vertice de abajo:
                         Vertex<Integer> torreInferior = vertexMap.get(valueK(i+1, j, n, m));
-                        
+                        // Conectamos el vertice actual con el vertice de abajo:
                         if (graph.connect(torre, torreInferior)) {
+                            // Aumentamos el grado de entrada del vertice de abajo:
                             torreInferior.upInwardDegree();
                         }
                     }
                     if (torre.getHeight() >= matriz[i][j+1]) {
+                        // Obtenemos el vertice de la derecha:
                         Vertex<Integer> torreDerecha = vertexMap.get(valueK(i, j+1, n, m));
+                        // Conectamos el vertice actual con el vertice de la derecha:
                         if (graph.connect(torre, torreDerecha)) {
+                            // Aumentamos el grado de entrada del vertice de la derecha:
                             torreDerecha.upInwardDegree();
                         }
                     }
@@ -342,6 +420,7 @@ public class AlfonsoJose {
             }
         }
         System.out.println(" ");
+        // Retornamos el grafo creado:
         return graph;
     }
 
@@ -386,6 +465,14 @@ public class AlfonsoJose {
                 components.add(component);
             }
         }
+        // Recorremos cada una de las componentes creadas
+        for (List<Vertex<Integer>> component : components) {
+            // 
+            for (Vertex<Integer> vertex : component) {
+                vertex.setTamanoCFC(component.size());
+            }
+        }
+
         //Retornamos la lista de componentes.
         return components;
     }
@@ -446,6 +533,7 @@ public class AlfonsoJose {
                 //Se inicializa el vertice representante con el primer vertice de la componente.
                 Vertex<Integer> representante = new Vertex<Integer>(v);
                 representante.setHeight(component.get(0).getHeight());
+                representante.setTamanoCFC(component.size());
                 //Se recorren todos los vertices de la componente.
                 for (Vertex<Integer> vertex : component) {
                     //Si algun vertice se derrama entonces el representante tambien se derrama.
@@ -484,7 +572,9 @@ public class AlfonsoJose {
             }
         }
     }
+    
     static int contador = 0;
+
     public static void OrdenTopologico(Graph<Vertex<Integer>> graph){
         contador = graph.size();
         List<Vertex<Integer>> visitados = new ArrayList<>();
@@ -509,7 +599,7 @@ public class AlfonsoJose {
     private static void printGraph(Graph<Vertex<Integer>> graph) {
         for (Vertex<Integer> vertex : graph.getAllVertices()) {
             System.out.println(vertex);
-            System.out.println("Inward edges: ");
+            /*System.out.println("Inward edges: ");
             for (Vertex<Integer> inward : graph.getInwardEdges(vertex)) {
                 System.out.println(inward);
             }
@@ -517,7 +607,7 @@ public class AlfonsoJose {
             for (Vertex<Integer> outward : graph.getOutwardEdges(vertex)) {
                 System.out.println(outward);
             }
-            System.out.println();
+            System.out.println();*/
         }
     }
 
@@ -537,26 +627,38 @@ public class AlfonsoJose {
                 return o1.getF() - o2.getF();
             }
         }); 
+        System.out.println("Lista de vertices ordenados topologicamente: ");
+        for (Vertex<Integer> vertex : listaVerticesOrdenTopologico) {
+            System.out.println(vertex);
+        }
+
         //Recorremos la lista de vertices ordenados topologicamente.
         for (Vertex<Integer> torre: listaVerticesOrdenTopologico){
             //Si la torre tiene grado de entrada 0, es decir, es un vertice fuente entonces se llama al 
             //metodo derramado().
-            if (torre.getInwardDegree() != 0){
+            System.out.println("Torre: " + torre.getValue() + " va a ser revisada");
+            if (torre.getInwardDegree() != 0 && !torre.isSpills()){
+                System.out.println("Torre: " + torre.getValue() + " no es fuente");
                 //Se llama al metodo derramado() para la torre actual.
                 derramado(graph, torre, torre);
                 //Si la torre no se derrama
                 if (!torre.isSpills()){
+                    System.out.println("Estamos entrando al bucle");
                     //Asignamos a una variable agua el maximo valor entero
                     int agua = Integer.MAX_VALUE;
                     //Recorremos todos los predecesores de la torre.
                     for (Vertex<Integer> predecesor : graph.getInwardEdges(torre)){
+                        System.out.println("Predecesor: " + predecesor.getValue() + " altura: " + predecesor.getHeight()+ " agua: " + agua);
                         //Si la altura del predecesor es menor que el valor de agua entonces se actualiza el valor de agua.
-                        if (agua < predecesor.getHeight()){
+                        if (agua > predecesor.getHeight()){
                             agua = predecesor.getHeight();
+                            System.out.println("El agua es: " + agua);
                         }
                     }
                     //Se actualiza el valor del contador, siendo este la diferencia entre el agua y la altura de la torre.
-                    contador = contador + (agua - torre.getHeight());
+                    System.out.println("El vertice actual es:"+ torre);
+                    contador = contador + ((agua - torre.getHeight()) * torre.getTamanoCFC());
+                    System.out.println("El contador es: " + contador);
                     //Se actualiza la altura de la torre.
                     torre.setHeight(agua);
                 }

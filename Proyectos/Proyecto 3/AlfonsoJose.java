@@ -11,29 +11,42 @@ import java.util.Map;
 import java.util.Set;
 
 public class AlfonsoJose {
+    //Atributo contador para el orden topologico y para la cantidad de agua necesaria.
+    static int contador = 0;
+
+    /**
+     * El método main es el punto de entrada del programa.
+     * Lee una matriz de alturas desde un archivo .txt, crea un grafo dirigido basado en las alturas de las torres de la ciudad,
+     * calcula los componentes fuertemente conectados del grafo, genera un grafo reducido basado en los componentes fuertemente conectados,
+     * genera un orden topológico para los vértices del grafo reducido y calcula la cantidad de agua necesaria para inundar la ciudad
+     * utilizando el orden topológico y el método propagaciónAgua().
+     *
+     * @param args los argumentos de la línea de comandos
+     */
     public static void main(String[] args) {
         String fileName = "atlantis.txt";
+        // Generamos la matriz de alturas a partir del archivo atlantis.txt
         int[][] matrix= readMatrixFromFile(fileName);
+        // Creamos el grafo dirigido que modela el problema en funcion de las alturas de las torres de la ciudad.
         Graph<Vertex<Integer>> graph = createGraph(matrix);
+        // Calculamos las componentes fuertemente conexas del grafo.
         List<List<Vertex<Integer>>> componentes = calculoDeComponentesFuertementeConexas(graph);
-        /*for (List<Vertex<Integer>> component : componentes) {
-            System.out.println("Componente: ");
-            for (Vertex<Integer> vertex : component) {
-                System.out.println(vertex);
-            }
-            System.out.println();
-        }*/
+        // Convertimos el grafo original en uno reducido a partir de las componenetes fuertemente conexas.
         generateGraphReducido(graph, componentes, matrix);
-        //System.out.println(graph.size());
-        printGraph(graph);
+        // Generamos un orden topologico para los vertices del grafo reducido.
         OrdenTopologico(graph);
-        for (Vertex<Integer> vertex : graph.getAllVertices()) {
-            System.out.println("Vertice " + vertex.getValue() + " tiene f: " + vertex.getF());
-        }
-        propagacionAgua(graph);
-                               
+        // Usando el orden topologico anterior, calculamos la cantidad de agua que se requiere para inundar la ciudad
+        // a traves del metodo propagacionAgua()
+        propagacionAgua(graph);                     
     }
     
+    /**
+     * Lee una matriz desde un archivo .txt y genera una matriz de enteros.
+     *
+     * @param fileName nombre del archivo que contiene la matriz.
+     * @return matriz construida a partir del archivo, generada como un arreglo de 
+     *         arreglos de enteros.
+     */
     private static int[][] readMatrixFromFile(String fileName) {    
         // Leemos el archivo y agregamos los vértices al grafo:
         int fila = 0;
@@ -85,9 +98,19 @@ public class AlfonsoJose {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // Retornamos la matriz de alturas de las torres:
         return matriz;
     }
 
+    /**
+     * Calcula el valor de K basándose en los índices y dimensiones dados.
+     * 
+     * @param i El índice de la fila.
+     * @param j El índice de columna.
+     * @param n El número de filas.
+     * @param m El número de columnas.
+     * @return El valor calculado de K.
+     */
     private static int valueK(int i, int j, int n, int m) {
         return (i*n*m)+j;
     }
@@ -467,8 +490,9 @@ public class AlfonsoJose {
         }
         // Recorremos cada una de las componentes creadas
         for (List<Vertex<Integer>> component : components) {
-            // 
+            // Recorremos cada uno de los vértices de la componente
             for (Vertex<Integer> vertex : component) {
+                // Asignamos a cada vértice de la componente el tamaño de la componente
                 vertex.setTamanoCFC(component.size());
             }
         }
@@ -518,6 +542,13 @@ public class AlfonsoJose {
         }
     }
 
+    /**
+     * Genera un grafo reducido fusionando componentes fuertemente conectados en vértices representativos.
+     * 
+     * @param graph el grafo original
+     * @param componentes la lista de componentes fuertemente conectados
+     * @param matriz la matriz que representa el grafo
+     */
     public static void generateGraphReducido(Graph<Vertex<Integer>> graph, List<List<Vertex<Integer>>> componentes, int[][] matriz) {
         
         // Recolectamos las dimensiones de la matriz nxm.
@@ -526,13 +557,16 @@ public class AlfonsoJose {
 
         //Creamos un valor unico que sera utilizado para los nuevos vertices.
         int v = ((n*n*m)+m) + 1;
+
         //Recorremos la lista de componentes fuertemente conexas.
         for (List<Vertex<Integer>> component : componentes) {
             //Si la componente tiene mas de un vertice entonces se crea un vertice representante.
             if (component.size() > 1) {
-                //Se inicializa el vertice representante con el primer vertice de la componente.
+                // Se inicializa un vertice representante para fusionar todos los vertices de una componente en uno solo.
                 Vertex<Integer> representante = new Vertex<Integer>(v);
+                // Se le asigna al representante la altura del primer vertice de la componente.
                 representante.setHeight(component.get(0).getHeight());
+                // Se le asigna al representante el tamaño de la componente.
                 representante.setTamanoCFC(component.size());
                 //Se recorren todos los vertices de la componente.
                 for (Vertex<Integer> vertex : component) {
@@ -544,9 +578,10 @@ public class AlfonsoJose {
                 }
                 //Se agrega el representante al grafo.
                 graph.add(representante);
+
                 //Se recorren todos los vertices de la componente.
                 for (Vertex<Integer> vertex : component) {
-                    //Se recorren todos los adyacentes del vertice vertex.
+                    //Se recorren todos los sucesores del vertice vertex.
                     for (Vertex<Integer> vecino : graph.getOutwardEdges(vertex)) {
                         //Si el vecino no pertenece a la componente entonces se conecta al representante.
                         if (!component.contains(vecino)) {
@@ -554,6 +589,7 @@ public class AlfonsoJose {
                             graph.connect(representante, vecino);
                         }
                     }
+                    //Se recorren todos los predecesores del vertice vertex.
                     for (Vertex<Integer> vecino : graph.getInwardEdges(vertex)) {
                         //Si el vecino no pertenece a la componente entonces se conecta al representante.
                         if (!component.contains(vecino)) {
@@ -566,16 +602,16 @@ public class AlfonsoJose {
                     }
                     //Se elimina el vertice vertex del grafo.
                     graph.remove(vertex);
-                    //Aumentamos el valor del proximo vertice.
+                    //Aumentamos el valor del proximo vertice representante.
                     v++;
                 }
             }
         }
     }
     
-    static int contador = 0;
 
     public static void OrdenTopologico(Graph<Vertex<Integer>> graph){
+        // 
         contador = graph.size();
         List<Vertex<Integer>> visitados = new ArrayList<>();
         for (Vertex<Integer> vertex : graph.getAllVertices()) {
@@ -599,15 +635,6 @@ public class AlfonsoJose {
     private static void printGraph(Graph<Vertex<Integer>> graph) {
         for (Vertex<Integer> vertex : graph.getAllVertices()) {
             System.out.println(vertex);
-            /*System.out.println("Inward edges: ");
-            for (Vertex<Integer> inward : graph.getInwardEdges(vertex)) {
-                System.out.println(inward);
-            }
-            System.out.println("Outward edges: ");
-            for (Vertex<Integer> outward : graph.getOutwardEdges(vertex)) {
-                System.out.println(outward);
-            }
-            System.out.println();*/
         }
     }
 

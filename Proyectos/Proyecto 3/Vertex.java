@@ -4,6 +4,7 @@ class Vertex<T> {
     private int inwardDegree;
     private boolean spills;
     private int f;
+    private int tamanoCFC;
 
     public Vertex(T value) {
         this.value = value;
@@ -53,8 +54,16 @@ class Vertex<T> {
         this.f = f;
     }
 
+    public void setTamanoCFC(int tamanoCFC) {
+        this.tamanoCFC = tamanoCFC;
+    }
+
+    public int getTamanoCFC() {
+        return tamanoCFC;
+    }
+
     @Override
     public String toString() {
-        return "Vertex{value=" + value + ", height=" + height + "}";
+        return "Vertex{value=" + value + ", height=" + height + ", " + (spills ? "spills" : "no spills") + ", inwardDegree=" + inwardDegree + ", f=" + f + ", tamanoCFC=" + tamanoCFC + "}";
     }
 }

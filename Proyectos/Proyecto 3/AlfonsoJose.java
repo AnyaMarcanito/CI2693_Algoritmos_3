@@ -15,10 +15,17 @@ public class AlfonsoJose {
         String fileName = "atlantis.txt";
         int[][] matrix= readMatrixFromFile(fileName);
         Graph<Vertex<Integer>> graph = createGraph(matrix);
+        List<List<Vertex<Integer>>> componentes = calculoDeComponentesFuertementeConexas(graph);
+        for (List<Vertex<Integer>> component : componentes) {
+            System.out.println("Componente: ");
+            for (Vertex<Integer> vertex : component) {
+                System.out.println(vertex);
+            }
+            System.out.println();
+        }
+        generateGraphReducido(graph, componentes, matrix);
         System.out.println(graph.size());
         printGraph(graph);
-        List<List<Vertex<Integer>>> componentes = calculoDeComponentesFuertementeConexas(graph);
-        generateGraphReducido(graph, componentes);
         OrdenTopologico(graph);
         propagacionAgua(graph);
                                
@@ -83,30 +90,30 @@ public class AlfonsoJose {
     }
 
     private static Graph<Vertex<Integer>> createGraph(int [][] matriz) {
-    // Creamos el grafo de vértices.
-    Graph<Vertex<Integer>> graph = new AdjacencyListGraph<>();
-    // Recolectamos las dimensiones de la matriz nxm.
-    int n = matriz.length;
-    int m = matriz[0].length;
-    // Creamos un mapa para almacenar los vértices existentes por su clave única
-    Map<Integer, Vertex<Integer>> vertexMap = new HashMap<>();
-    // Verificamos la existencia de vértices y los creamos si es necesario
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            int k = valueK(i, j, n, m);
-            System.out.println("Valor: " + k + " , Altura: " + matriz[i][j]);
-            if (!vertexMap.containsKey(k)) {
-                Vertex<Integer> torre = new Vertex<Integer>(k);
-                torre.setHeight(matriz[i][j]);
-                // Si se encuentra en uno de los bordes, contamos que el agua se puede derramar por el.
-                if (i == 0 || i == n-1 || j == 0 || j == m-1) {
-                    torre.setSpills(true);
+        // Creamos el grafo de vértices.
+        Graph<Vertex<Integer>> graph = new AdjacencyListGraph<>();
+        // Recolectamos las dimensiones de la matriz nxm.
+        int n = matriz.length;
+        int m = matriz[0].length;
+        // Creamos un mapa para almacenar los vértices existentes por su clave única
+        Map<Integer, Vertex<Integer>> vertexMap = new HashMap<>();
+        // Verificamos la existencia de vértices y los creamos si es necesario
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int k = valueK(i, j, n, m);
+                if (!vertexMap.containsKey(k)) {
+                    Vertex<Integer> torre = new Vertex<Integer>(k);
+                    torre.setHeight(matriz[i][j]);
+                    // Si se encuentra en uno de los bordes, contamos que el agua se puede derramar por el.
+                    if (i == 0 || i == n-1 || j == 0 || j == m-1) {
+                        torre.setSpills(true);
+                    }
+                    graph.add(torre);
+                    vertexMap.put(k, torre);
                 }
-                graph.add(torre);
-                vertexMap.put(k, torre);
             }
         }
-    }
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 // Creamos un valor unico para el vertice del grafo
@@ -424,9 +431,14 @@ public class AlfonsoJose {
         }
     }
 
-    public static void generateGraphReducido(Graph<Vertex<Integer>> graph, List<List<Vertex<Integer>>> componentes) {
+    public static void generateGraphReducido(Graph<Vertex<Integer>> graph, List<List<Vertex<Integer>>> componentes, int[][] matriz) {
+        
+        // Recolectamos las dimensiones de la matriz nxm.
+        int n = matriz.length;
+        int m = matriz[0].length;
+
         //Creamos un valor unico que sera utilizado para los nuevos vertices.
-        int v = graph.size() + 1;
+        int v = ((n*n*m)+m) + 1;
         //Recorremos la lista de componentes fuertemente conexas.
         for (List<Vertex<Integer>> component : componentes) {
             //Si la componente tiene mas de un vertice entonces se crea un vertice representante.

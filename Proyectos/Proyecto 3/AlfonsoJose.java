@@ -14,6 +14,15 @@ public class AlfonsoJose {
     //Atributo contador para el orden topologico y para la cantidad de agua necesaria.
     static int contador = 0;
 
+    //Colores para la salida estandar
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_MAGENTA = "\u001B[35m";
+
     /**
      * El método main es el punto de entrada del programa.
      * Lee una matriz de alturas desde un archivo .txt, crea un grafo dirigido basado en las alturas de las torres de la ciudad,
@@ -47,7 +56,7 @@ public class AlfonsoJose {
      * @return matriz construida a partir del archivo, generada como un arreglo de 
      *         arreglos de enteros.
      */
-    private static int[][] readMatrixFromFile(String fileName) {    
+    public static int[][] readMatrixFromFile(String fileName) {    
         // Leemos el archivo y agregamos los vértices al grafo:
         int fila = 0;
         int columna = 0;
@@ -125,7 +134,7 @@ public class AlfonsoJose {
      *         en direccion de los vertices de mayor altura a los de menor 
      *         altura.
      */
-    private static Graph<Vertex<Integer>> createGraph(int [][] matriz) {
+    public static Graph<Vertex<Integer>> createGraph(int [][] matriz) {
         // Creamos el grafo de vértices.
         Graph<Vertex<Integer>> graph = new AdjacencyListGraph<>();
         // Recolectamos las dimensiones de la matriz nxm.
@@ -610,34 +619,58 @@ public class AlfonsoJose {
     }
     
 
+    /**
+     * Realiza un recorrido topológico en el grafo dado y devuelve el orden topológico de los vértices.
+     * El orden topológico es un orden lineal de los vértices de un grafo dirigido, donde para cada arista (u, v),
+     * el vértice u aparece antes que el vértice v en el orden.
+     * 
+     * @param graph el grafo en el que se realizará el recorrido topológico
+     */
     public static void OrdenTopologico(Graph<Vertex<Integer>> graph){
-        // 
+        // Inicializamos el contador en el tamaño del grafo.
         contador = graph.size();
+        // Creamos una lista de vertices visitados.
         List<Vertex<Integer>> visitados = new ArrayList<>();
+        // Recorremos todos los vertices del grafo.
         for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            // Si el vertice no ha sido visitado entonces se llama al metodo dfsTopologico().
             if(!visitados.contains(vertex)){
+                // Se llama al metodo dfsTopologico() para el vertice actual.
                 dfsTopologico(graph, vertex, visitados);
             }
         }
     }
 
+    /**
+     * Realiza un recorrido en profundidad (DFS) topológico en un grafo dado, comenzando desde un vértice dado.
+     * Agrega los vértices visitados a la lista de visitados y actualiza el atributo 'f' de cada vértice.
+     *
+     * @param graph     El grafo en el que se realizará el recorrido.
+     * @param vertex    El vértice desde el cual se comenzará el recorrido.
+     * @param visitados La lista de vértices visitados.
+     */
     private static void dfsTopologico(Graph<Vertex<Integer>> graph, Vertex<Integer> vertex, List<Vertex<Integer>> visitados){
+        // Se agrega el vertice actual a la lista de vertices visitados.
         visitados.add(vertex);
+        // Recorremos todos los sucesores del vertice actual.
         for (Vertex<Integer> vecino : graph.getOutwardEdges(vertex)) {
+            // Si el sucesor no ha sido visitado entonces se llama al metodo dfsTopologico().
             if (!visitados.contains(vecino)) {
                 dfsTopologico(graph, vecino, visitados);
             }
         }
+        // Se actualiza el atributo f del vertice actual usando el contador.
         contador = contador -1;
         vertex.setF(contador);
     }
 
-    private static void printGraph(Graph<Vertex<Integer>> graph) {
-        for (Vertex<Integer> vertex : graph.getAllVertices()) {
-            System.out.println(vertex);
-        }
-    }
 
+    /**
+     * Realiza la propagación del agua en un grafo dado.
+     * Calcula la cantidad de agua necesaria para hundir la ciudad.
+     * 
+     * @param graph el grafo en el que se realizará la propagación del agua.
+     */
     private static void propagacionAgua(Graph<Vertex<Integer>> graph){
         //Inicializamos un contador para el agua que se derrama.
         contador = 0;
@@ -654,47 +687,47 @@ public class AlfonsoJose {
                 return o1.getF() - o2.getF();
             }
         }); 
-        System.out.println("Lista de vertices ordenados topologicamente: ");
-        for (Vertex<Integer> vertex : listaVerticesOrdenTopologico) {
-            System.out.println(vertex);
-        }
 
         //Recorremos la lista de vertices ordenados topologicamente.
         for (Vertex<Integer> torre: listaVerticesOrdenTopologico){
             //Si la torre tiene grado de entrada 0, es decir, es un vertice fuente entonces se llama al 
             //metodo derramado().
-            System.out.println("Torre: " + torre.getValue() + " va a ser revisada");
             if (torre.getInwardDegree() != 0 && !torre.isSpills()){
-                System.out.println("Torre: " + torre.getValue() + " no es fuente");
                 //Se llama al metodo derramado() para la torre actual.
                 derramado(graph, torre, torre);
                 //Si la torre no se derrama
                 if (!torre.isSpills()){
-                    System.out.println("Estamos entrando al bucle");
                     //Asignamos a una variable agua el maximo valor entero
                     int agua = Integer.MAX_VALUE;
                     //Recorremos todos los predecesores de la torre.
                     for (Vertex<Integer> predecesor : graph.getInwardEdges(torre)){
-                        System.out.println("Predecesor: " + predecesor.getValue() + " altura: " + predecesor.getHeight()+ " agua: " + agua);
                         //Si la altura del predecesor es menor que el valor de agua entonces se actualiza el valor de agua.
                         if (agua > predecesor.getHeight()){
                             agua = predecesor.getHeight();
-                            System.out.println("El agua es: " + agua);
                         }
                     }
-                    //Se actualiza el valor del contador, siendo este la diferencia entre el agua y la altura de la torre.
-                    System.out.println("El vertice actual es:"+ torre);
+                    //Se actualiza el valor del contador, siendo este la diferencia entre el agua y la altura de la torre por el tamaño de la CFC.
                     contador = contador + ((agua - torre.getHeight()) * torre.getTamanoCFC());
-                    System.out.println("El contador es: " + contador);
                     //Se actualiza la altura de la torre.
                     torre.setHeight(agua);
                 }
             }
         }
-        System.out.println("La cantidad de agua necesaria es: " + contador);
+        // Imprimimos la cantidad de agua conseguida por la salida estandar:
+        System.out.println(ANSI_YELLOW + "La cantidad de agua necesaria para hundir la ciudad es: "+ ANSI_RESET + ANSI_MAGENTA + contador + ANSI_RESET);
+        System.out.println(" ");
 
     }
 
+    /**
+     * Realiza un recorrido en profundidad en el grafo a partir de la torre1 y verifica si se produce un derramado.
+     * Si la torre1 se derrama, se cambia el atributo spills de la torre2 a true.
+     * Si la torre1 no se derrama, se continúa el recorrido en profundidad en los sucesores de la torre1.
+     * 
+     * @param graph el grafo en el que se realiza el recorrido.
+     * @param torre1 la torre inicial desde donde se inicia el recorrido.
+     * @param torre2 la torre a la que se le cambia el atributo spills si torre1 se derrama.
+     */
     private static void derramado(Graph<Vertex<Integer>> graph, Vertex<Integer> torre1, Vertex<Integer> torre2){
         //Si la torre1 se derrama entonces se cambia el atributo spills de la torre2 a true.
         if (torre1.isSpills()) {
@@ -706,6 +739,17 @@ public class AlfonsoJose {
         for (Vertex<Integer> sucesor : graph.getOutwardEdges(torre1)) {
             //Se llama al metodo derramado() para el sucesor actual.
             derramado(graph, sucesor, torre2);
+        }
+    }
+
+    /**
+     * Imprime todos los vértices del grafo dado.
+     *
+     * @param graph el grafo que contiene los vértices a imprimir.
+     */
+    private static void printGraph(Graph<Vertex<Integer>> graph) {
+        for (Vertex<Integer> vertex : graph.getAllVertices()) {
+            System.out.println(vertex);
         }
     }
     

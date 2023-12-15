@@ -149,3 +149,11 @@ A continuación se dará una breve explicación de cada una de las clases y mét
                -> tamanoCFC: Tamaño de la componente fuertemente conexa a la que pertenece el vértice, esto para que al momento en que sea posible colocar agua 
                   dentro de un vértice representante se pueda saber por cuantas casillas debe multiplicarse el agua que hay dentro de él.
 
+➱ Compilacion: javac AdjacencyListGraph.java Vertex.java AlfonsoJose.java
+
+➱ Ejecucion: java AlfonsoJose
+
+➱ Salida esperada: La cantidad de agua necesaria para hundir la ciudad es: 5
+
+
+

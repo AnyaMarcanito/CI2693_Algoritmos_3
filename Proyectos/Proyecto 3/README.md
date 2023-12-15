@@ -114,12 +114,37 @@ A continuacion se dara una breve explicacion de cada una de las clases y método
    esto mientras se encarga de copiar todas las conexiones particulares de cada vertice de la componente al representante, asi como las carteristicas que 
    comparten los vertices de la componente, es decir: heigth, spills y tamanoCFC.
    
-   ☆ El Metodo OrdenTopologico:
-
+   ☆ El Metodo OrdenTopologico y dfsTopologico:
    
-   ☆ El Metodo dfsTopologico
-   ☆ El Metodo propagacionAgua
-   ☆ El Metodo derramado
-   ☆ El Metodo printGraph
+   Se trata de la implementación del pseudocódigo visto en teoría para el cálculo de un orden total para los vertices guiandonos por subconjuntos de vertices 
+   fuentes que se van presentando en el grafo una vez que van siendo revisadas las precedencias de los mismos por medio de una implementacion particular del 
+   DFS Recursivo, metodo que en este caso fue nombrado dfsTopologico() el cual se encarga de ir asignando para cada objeto vertex del grafo su atributo f, siendo 
+   este el lugar en el que es almacenado el resultado de la corrida del algoritmo de orden topologico.
+   
+   ☆ El Metodo propagacionAgua y derramado:
+
+   Teniendo como entrada el grafo reducido, el cual ya posee en el atributo f de sus vertices el orden que debe ser seguido para realizar las comprobaciones, 
+   este metodo se encarga precisamente de dar respuesta a la pregunta cuanta agua es necesaria para hundir la configuracion de la ciudad introducida, y esto lo 
+   hace iterando sobre los vertices siguiendo el orden topologico, para ir dezplegando en cada uno de ellos el metodo derramado, que de forma recursiva se encarga 
+   de revisar los sucesores de los vertices y verificar si estos desembocan en un borde, siendo esto un condicional para estar seguros de que si es colocada agua 
+   en estos recuadros, la misma se derramara.
+
+   Bajo esta idea, el metodo derramado, se encarga de realizar un recorrido en profundidad en el grafo a partir de una torre1 y en el cual va verificando si ocurre
+   que el agua llega a un punto en el que se sabe que va a derramarse, ante lo cual, se tiene el condicional de que si la torre1 se derrama, se cambia el atributo 
+   spills de la torre2 a true, es decir, se va propagando el true en spills a todos los vertices afectados.
+
+   Siendo este metodo, el que permite luego poder verificar cuales vertices con atributo spills en false pueden ser llenados, y con cuanta agua, haciendose esto 
+   ultimo mediante una comparacion con los adyacentes de los vertices que sabemos que pueden retener cierto nivel de agua, usandose el contador de la clase para 
+   ir acumulando el agua total que va siendo colocada en el grafo.
    
 ➱ Sobre la implementación de la clase Vertex:
+   Se trata de la estructura creada para poder almacenar toda la informacion relevante con respecto a los vertices para este problema, teniendo metodos setter y 
+   getter para cada uno de los siguientes atributos en añadidura al constructor de la clase:
+
+               -> Value: Utilizado como identificador unico para cada vertice agregado al grafo, y tiendo relacion con el metodo valueK.
+               -> Heigth: Siendo la altura del vertice que se refleja en la matriz de alturas de las torres que es input del problema.
+               -> inWardDegree: Almacenando el grado interno del vertice en cuestion.
+               -> Spills: Siendo un marcador booleano que permite distinguir si un vertice se derrama o si por el contrario es capaz de retener agua dentro.
+               -> f: Entero que representa el orden del vertice dentro de un orden topologico calculado
+               -> tamanoCFC: Tamano de la componente fuertemente conexa a la que pertene el vertice, esto para que al momento en que sea posible colocar agua 
+                  dentro de un vertice representante se pueda saber por cuantas casillas debe multiplicarse el agua que hay dentro de el.

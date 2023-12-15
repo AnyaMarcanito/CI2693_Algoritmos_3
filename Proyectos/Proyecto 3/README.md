@@ -37,4 +37,52 @@ en un borde, haciendo que no sea posible la retencion del agua dentro del tal cu
 
 A continuacion se dara una breve explicacion de cada una de las clases y métodos que fueron diseñados para la solución del problema propuesto:
 
-➱ Sobre la implementación de CartaMostro:
+➱ Sobre la implementación de la clase AlfonsoJose:
+
+   En esta clase se tiene un atributo contador, atributos relacionados con el establecimiento de colores para los textos de la salida estandar y ademas
+   en esta clase se encuentran almacenados todos los metodos necesarios para lograr llevar a cabo la estrategia de solucion planteada anteriormente.
+
+   Estos metodos son:
+
+   ☆ El Metodo main:
+      Basicamente es el punto de entrada de todo nuestro programa, haciendose desde el todas las llamadas a los demas metodos que permiten ir construyendo la 
+      solucion al problema planteado, con lo cual, el main lee una matriz de alturas desde un archivo .txt con el metodo readMatrixFromFile(), crea un grafo 
+      dirigido basado en las alturas de las torres de la ciudad llamando a createGraph(), calcula las componentes fuertemente conectados del grafo con 
+      calculoDeComponentesFuertementeConexas(), genera un grafo reducido basado en los componentes fuertemente conectados gracias al metodo generateGraphReducido()
+      genera un orden topológico para los vértices del grafo reducido con OrdenTopologico() y dfsTopologico() y finalmente calcula la cantidad de agua necesaria 
+      para inundar la ciudad utilizando el orden topológico calculado y el método propagaciónAgua().
+      
+   ☆ El Metodo readMatrixFromFile:
+      Este metodo se ecnarga unicamente de leer una matriz desde un archivo .txt y generar con ella una matriz de enteros, siendo la entrada del metodo el nombre 
+      del archivo que contiene la matriz y la salida la matriz generada como un arreglo de arreglos de enteros.
+     
+   ☆ El Metodo valueK:
+      Esta es una funcion que fue creada con el proposito de poder generar un identificador unico para todos los vertices del grafo, esto con el proposito de poder 
+      almacenar la altura como un atributo y poder diferenciar todos los vertices unos de otros a pesar de que compartan altura, algo que dadas las caracteristicas 
+      del problema sucede con regularidad, por lo que, la creacion de este metodo surgio como para de la idea de no usar las alturas como los identificadores del 
+      los vertices, sino poder tener una forma de poder tener una clave unica para cada uno de ellos y poder diferenciarlos con mayor facilidad.
+      En si, la funcion tiene como entradas: 
+      
+                -> i El índice de la fila.
+                -> j El índice de columna.
+                -> n El número de filas.
+                -> m El número de columnas.
+                
+   Donde la salida es K = (i*n*m)+j para cada vertice del grafo
+   
+   ☆ El Metodo createGraph:
+      Este metodo se encarga de la construccion de nuestro grafo dirigido a partir de la matriz que ya fue leida del archivo .txt, teniendo como parametros de 
+      entrada la matriz generada por readMatrixFromFile y como salida el grafo dirigido de los vertices que representan las torres de la ciudad a hundir, y cuyos 
+      lados son las conexiones se establecen entre vertices adyacentes en la matriz (arriba, abajo, izquierda, derecha) y siempre en direccion de los vertices de 
+      mayor altura a los de menor altura. 
+      
+   ☆ El Metodo calculoDeComponentesFuertementeConexas
+   ☆ El Metodo dfs
+   ☆ El Metodo generateGraphReducido
+   ☆ El Metodo OrdenTopologico
+   ☆ El Metodo dfsTopologico
+   ☆ El Metodo propagacionAgua
+   ☆ El Metodo derramado
+   ☆ El Metodo printGraph
+   
+➱ Sobre la implementación de la clase Vertex:
